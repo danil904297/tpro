@@ -8,17 +8,19 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <string>
-
-#include "gameStartedWindow.h"
+#include "Play.h"
+#include "nastr.cpp"
 using namespace sf;
-void Options1() {
+void Options1()
+{
     VideoMode::getDesktopMode();
 
     RenderWindow window(sf::VideoMode(800, 600), "Options");
     bool isMenu = true;
     window.setActive(true);
     window.setPosition(sf::Vector2i(10, 50));
-    while (isMenu) {
+    while (isMenu)
+    {
         float width = VideoMode::getDesktopMode().width;
         float height = VideoMode::getDesktopMode().height;
 
@@ -33,9 +35,9 @@ void Options1() {
         window.display();
     }
 }
-void Print() {
-    std::cout << "CLick!'\n";
-}
+//void Print() {
+//    std::cout << "CLick!'\n";
+//}
 
 
 void menu(RenderWindow& window) {
@@ -71,13 +73,12 @@ void menu(RenderWindow& window) {
     button2.setTexture(textureBase);
     button3.setTexture(textureExit);
     Titul.setTexture(textureTitul);
-    Titul.setPosition(width / 2 - width / 12.8, height/10);
+    Titul.setPosition(width / 2 - width / 12.8, height / 10);
     button1.setPosition(width / 2 - width / 12.8, height / 4 + height / 4.7);
     button2.setPosition(width / 2 - width / 12.8, height / 4 + height / 36);
     button3.setPosition(width / 2 - width / 12.8, height / 4 + height / 2.51);
     window.setIcon(562, 1000, Icon.getPixelsPtr());
-    while (isMenu)
-    {
+    while (isMenu) {
         Vector2u size = window.getSize();
         int width = size.x;
         int height = size.y;
@@ -85,34 +86,36 @@ void menu(RenderWindow& window) {
         button1.setColor(Color::White);
         button2.setColor(Color::White);
         button3.setColor(Color::White);
-        if (IntRect(width / 2 - width / 12.8, height / 4 + height / 4.7, width/ 4.8, height/10.8).contains(Mouse::getPosition(window))) {
+        if (IntRect(width / 2 - width / 12.8, height / 4 + height / 4.7, width / 4.8, height / 10.8).contains(
+                Mouse::getPosition(window))) {
             button1.setColor(Color::Red);
             menu1 = 2;
         }
-        if (IntRect(width / 2 - width / 19.2, height / 4 + height / 36, width / 6.4, height / 10.8).contains(Mouse::getPosition(window))) {
+        if (IntRect(width / 2 - width / 19.2, height / 4 + height / 36, width / 6.4, height / 10.8).contains(
+                Mouse::getPosition(window))) {
             button2.setColor(Color::Red);
             menu1 = 1;
         }
-        if (IntRect(width / 2 - width / 22, height / 4 + height / 2.51, width / 7, height / 10.8).contains(Mouse::getPosition(window))) {
+        if (IntRect(width / 2 - width / 22, height / 4 + height / 2.51, width / 7, height / 10.8).contains(
+                Mouse::getPosition(window))) {
             button3.setColor(Color::Red);
             menu1 = 3;
         }
 
         sf::Event event;
-        while (window.pollEvent(event))
-        {
+        while (window.pollEvent(event)) {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 1) {
                     window.close();
                     isMenu = false;
-                    gameMenu();
+                    play();
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 2) {
                     window.setActive(false);
-                    Options1();
+                    nastr();
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
