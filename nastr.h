@@ -7,6 +7,7 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <string>
+#include "latsgo.cpp"
 using namespace sf;
 
 
@@ -29,10 +30,14 @@ void menuNastr(RenderWindow& window) {
     Texture textureBase;
     Texture textureExit;
     Texture fastGame;
-
+    Texture multyGame;
+    Texture twoPlayer;
+    twoPlayer.loadFromFile("../menu/duo.png");
     fastGame.loadFromFile("../menu/fastgame.png");
+    multyGame.loadFromFile("../menu/multygame.jpg");
     textureExit.loadFromFile("../menu/exit.jpg");
-    textureBase.loadFromFile("../menu/startgame.jpg");
+
+
 
 
     sf::Font font;
@@ -66,16 +71,19 @@ void menuNastr(RenderWindow& window) {
 
 
     //textureClicked.loadFromFile("../menu/play.jpg");
-    Sprite  button1, button2, button3, buttonfastgame, buttontext;
+    Sprite  button1, button2, button3, buttonfastgame, buttonmulty, buttontwoPlayer,  buttontext;
+    buttontwoPlayer.setTexture(twoPlayer);
 
-    button2.setTexture(textureBase);
     button3.setTexture(textureExit);
     buttonfastgame.setTexture(fastGame);
-    buttontext.setPosition(width/7, height/5);
-    buttonfastgame.setPosition(width / 2 + width / 4.5, height / 4 + height / 5);
+    buttonmulty.setTexture(multyGame);
+
+    buttonmulty.setPosition(width / 2 - width / 2.3, height / 4 - height / 3);
+    buttonfastgame.setPosition(width / 2 - width / 2.3, height / 4 + height / 3);
     //button1.setPosition(width / 3 - width / 12.8, height / 4 + height / 4.7);
-    button2.setPosition(width / 2 - width / 45 , height / 4 - height /5);
+
     button3.setPosition(width / 2 - width / 12.8, height / 4 + height / 2);
+    buttontwoPlayer.setPosition(width / 2 + width / 4.5, height / 4 - height / 4);
     window.setIcon(562, 1000, Icon.getPixelsPtr());
     while (isMenu) {
         Vector2u size = window.getSize();
@@ -83,45 +91,69 @@ void menuNastr(RenderWindow& window) {
         int height = size.y;
         menu1 = 0;
         button1.setColor(Color(255, 188, 128, 128));
-        button2.setColor(Color(255, 255, 255, 128));
+
         button3.setColor(Color(255, 255, 255, 128));
-        buttontext.setColor(sf::Color::Red);
+        buttonmulty.setColor(sf::Color::Red);
         buttonfastgame.setColor(sf::Color::Red);
-        if (IntRect(width / 3 - width / 12.8, height / 4 + height / 4.7, width / 4.8, height / 10.8).contains(
+        buttontwoPlayer.setColor(sf::Color::Red);
+
+
+
+        if (IntRect(width / 2 - width / 2.3, height / 4 + height / 4, width / 2, height /3).contains(
                 Mouse::getPosition(window))) {
             buttonfastgame.setColor(Color::White);
             menu1 = 2;
         }
-        if (IntRect(width / 2 - width / 45 , height / 4 - height /5, width / 6.4, height / 10.8).contains(
+        if (IntRect(width / 2 - width / 2.3, height / 4 + height / 4, width / 2, height /3).contains(
                 Mouse::getPosition(window))) {
-            button2.setColor(Color::White);
-            menu1 = 1;
+            buttontwoPlayer.setColor(Color::White);
+            menu1 = 2;
         }
+        if (IntRect(width / 2 - width / 2.3, height / 4 - height / 3, width / 2, height /3).contains(
+                Mouse::getPosition(window))) {
+            buttonmulty.setColor(Color::White);
+            menu1 = 4;
+        }
+
         if (IntRect(width / 2 - width / 12.8, height / 4 + height / 2, width / 7, height / 10.8).contains(
                 Mouse::getPosition(window))) {
             button3.setColor(Color::White);
             menu1 = 3;
         }
-//        if (IntRect(width / 7, height / 5,width / 7,59).contains(
-//                Mouse::getPosition(window))) {
-//            buttontext.setColor(Color::Green);
-//        }
+        if (IntRect(width / 7, height / 5,width / 7,59).contains(
+                Mouse::getPosition(window))) {
+            buttontext.setColor(Color::Green);
+        }
+
+        if (IntRect(width / 2 + width / 4.5, height / 4 - height / 4, width / 7, height / 10.8).contains(
+                Mouse::getPosition(window))) {
+            buttontwoPlayer.setColor(Color::White);
+            menu1 = 1;
+        }
+
 
         sf::Event event;
         while (window.pollEvent(event)) {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 1) {
 
-                    play();
+                    latsgo();
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 2) {
-                    window.setActive(false);
+                    play(window);
 
                 }
             }
+            if (Mouse::isButtonPressed(Mouse::Left)) {
+                if (menu1 == 4) {
+                    play(window);
+
+                }
+            }
+
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 3) {
                     window.close();
@@ -137,7 +169,9 @@ void menuNastr(RenderWindow& window) {
         window.draw(text1);
         window.draw(button1);
         window.draw(buttonfastgame);
-        window.draw(button2);
+        window.draw(buttonmulty);
+        window.draw(buttontwoPlayer);
+
         window.draw(button3);
         window.display();
     }
