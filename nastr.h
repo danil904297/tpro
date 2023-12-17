@@ -8,6 +8,9 @@
 #include <iostream>
 #include <string>
 #include "latsgo.cpp"
+#include "latsgoOne.cpp"
+
+
 using namespace sf;
 
 
@@ -28,14 +31,13 @@ void menuNastr(RenderWindow& window) {
 
 
     Texture textureBase;
-    Texture textureExit;
     Texture fastGame;
     Texture multyGame;
     Texture twoPlayer;
     twoPlayer.loadFromFile("../menu/duo.png");
     fastGame.loadFromFile("../menu/fastgame.png");
     multyGame.loadFromFile("../menu/multygame.jpg");
-    textureExit.loadFromFile("../menu/exit.jpg");
+
 
 
 
@@ -69,20 +71,16 @@ void menuNastr(RenderWindow& window) {
     bool isMenu = true;
     int menu1 = 0;
 
-
-    //textureClicked.loadFromFile("../menu/play.jpg");
     Sprite  button1, button2, button3, buttonfastgame, buttonmulty, buttontwoPlayer,  buttontext;
     buttontwoPlayer.setTexture(twoPlayer);
 
-    button3.setTexture(textureExit);
     buttonfastgame.setTexture(fastGame);
     buttonmulty.setTexture(multyGame);
 
     buttonmulty.setPosition(width / 2 - width / 2.3, height / 4 - height / 3);
     buttonfastgame.setPosition(width / 2 - width / 2.3, height / 4 + height / 3);
-    //button1.setPosition(width / 3 - width / 12.8, height / 4 + height / 4.7);
+    button1.setPosition(width / 3 - width / 12.8, height / 4 + height / 4.7);
 
-    button3.setPosition(width / 2 - width / 12.8, height / 4 + height / 2);
     buttontwoPlayer.setPosition(width / 2 + width / 4.5, height / 4 - height / 4);
     window.setIcon(562, 1000, Icon.getPixelsPtr());
     while (isMenu) {
@@ -91,8 +89,6 @@ void menuNastr(RenderWindow& window) {
         int height = size.y;
         menu1 = 0;
         button1.setColor(Color(255, 188, 128, 128));
-
-        button3.setColor(Color(255, 255, 255, 128));
         buttonmulty.setColor(sf::Color::Red);
         buttonfastgame.setColor(sf::Color::Red);
         buttontwoPlayer.setColor(sf::Color::Red);
@@ -115,11 +111,6 @@ void menuNastr(RenderWindow& window) {
             menu1 = 4;
         }
 
-        if (IntRect(width / 2 - width / 12.8, height / 4 + height / 2, width / 7, height / 10.8).contains(
-                Mouse::getPosition(window))) {
-            button3.setColor(Color::White);
-            menu1 = 3;
-        }
         if (IntRect(width / 7, height / 5,width / 7,59).contains(
                 Mouse::getPosition(window))) {
             buttontext.setColor(Color::Green);
@@ -143,23 +134,18 @@ void menuNastr(RenderWindow& window) {
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 2) {
-                    play(window);
+                    latsgo1();
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 4) {
-                    play(window);
+
 
                 }
             }
 
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (menu1 == 3) {
-                    window.close();
-                    isMenu = false;
-                }
-            }
+
         }
 
 
@@ -172,7 +158,7 @@ void menuNastr(RenderWindow& window) {
         window.draw(buttonmulty);
         window.draw(buttontwoPlayer);
 
-        window.draw(button3);
+
         window.display();
     }
 }

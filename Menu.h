@@ -1,50 +1,21 @@
-//
-// Created by Администратор on 04.12.2023.
-//
-
 #ifndef SF_MENU_H
 #define SF_MENU_H
 #pragma once
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <string>
-#include "Play.h"
-#include "nastr.cpp"
+#include "nastr.h"
+#include "options.h"
+#include "exitConfirmation.h"
 using namespace sf;
-void Options1()
-{
-    VideoMode::getDesktopMode();
-
-    RenderWindow window(sf::VideoMode(800, 600), "Options");
-    bool isMenu = true;
-    window.setActive(true);
-    window.setPosition(sf::Vector2i(10, 50));
-    while (isMenu)
-    {
-        float width = VideoMode::getDesktopMode().width;
-        float height = VideoMode::getDesktopMode().height;
-
-
-        RectangleShape background(Vector2f(width, height));
-        Texture Texture_window;
-        Texture_window.loadFromFile("../menu/fomMenu.jpg");
-        background.setTexture(&Texture_window);
-
-
-        window.draw(background);
-        window.display();
-    }
-}
-//void Print() {
-//    std::cout << "CLick!'\n";
-//}
 
 
 void menu(RenderWindow& window) {
 
-    Image Icon;
+    Image Icon, exit;
     Icon.loadFromFile("../menu/icon.jpg");
-
+    exit.loadFromFile("../menu/exit.jpg");
+    exit.createMaskFromColor(Color(255, 0,0));
 
     float width = VideoMode::getDesktopMode().width;
     float height = VideoMode::getDesktopMode().height;
@@ -59,11 +30,11 @@ void menu(RenderWindow& window) {
     Texture textureBase;
     Texture textureExit;
     Texture textureOptions;
-    Texture textureTitul;
+       Texture textureTitul;
     textureExit.loadFromFile("../menu/exit.jpg");
     textureBase.loadFromFile("../menu/play.jpg");
     textureOptions.loadFromFile("../menu/nastr.jpg");
-    textureTitul.loadFromFile("../menu/tron.jpg");
+  textureTitul.loadFromFile("../menu/tron.jpg");
     bool isMenu = true;
     int menu1 = 0;
 
@@ -86,6 +57,7 @@ void menu(RenderWindow& window) {
         button1.setColor(Color::White);
         button2.setColor(Color::White);
         button3.setColor(Color::White);
+
         if (IntRect(width / 2 - width / 12.8, height / 4 + height / 4.7, width / 4.8, height / 10.8).contains(
                 Mouse::getPosition(window))) {
             button1.setColor(Color::Red);
@@ -106,22 +78,22 @@ void menu(RenderWindow& window) {
         while (window.pollEvent(event)) {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 1) {
-                    window.close();
-                    isMenu = false;
-                    play();
+
+                    menuNastr(window);
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 2) {
-                    window.setActive(false);
-                    nastr();
+                    menuOptions(window);
+
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 3) {
-                    window.close();
-                    isMenu = false;
+
+                    exitConfirmation();
+
                 }
             }
         }
