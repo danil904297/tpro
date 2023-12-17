@@ -6,14 +6,18 @@
 #define SF_EXIT_H
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
-#include "Menu.h"
 
+#include "options.h"
+#include "Menu.h"
 
 using  namespace sf;
 
-void Exit(RenderWindow& window)
+
+
+int Exit()
 {
 
+    sf::RenderWindow Exit(sf::VideoMode(1920, 1080), "Трон");
     Color buttons_color = Color::Black, buttons_chosen = Color::Red;
 
     int exit_width = 800, exit_height = 300;
@@ -43,25 +47,25 @@ void Exit(RenderWindow& window)
 
     int exit_selected = 1;
 
-    while (window.isOpen())
+    while (Exit.isOpen())
     {
         Event event_exit;
-        while (window.pollEvent(event_exit))
+        while (Exit.pollEvent(event_exit))
         {
             if (event_exit.type == Event::KeyReleased)
             {
                 if (event_exit.key.code == Keyboard::Escape) {
-                    //menu(&window);
+                    //menu(window);
                 }
-                if(event_exit.type == Event::Closed) window.close();
+                if(event_exit.type == Event::Closed) Exit.close();
             }
 
             if(IntRect(exit_yes.getPosition().x, exit_yes.getPosition().y, exit_yes.getLocalBounds().width * 1.5,
-                       exit_yes.getLocalBounds().height + exit_yes.getCharacterSize()/3).contains(Mouse::getPosition(window)))
+                       exit_yes.getLocalBounds().height + exit_yes.getCharacterSize()/3).contains(Mouse::getPosition(Exit)))
             {exit_selected = 0;}
 
             else if(IntRect(exit_no.getPosition().x, exit_no.getPosition().y, exit_no.getLocalBounds().width * 1.5,
-                            exit_no.getLocalBounds().height + exit_no.getCharacterSize()/3).contains(Mouse::getPosition(window)))
+                            exit_no.getLocalBounds().height + exit_no.getCharacterSize()/3).contains(Mouse::getPosition(Exit)))
             {exit_selected = 1;}
 
             else if (event_exit.type == Event::KeyPressed)
@@ -71,20 +75,21 @@ void Exit(RenderWindow& window)
             }
 
             if (exit_selected == 0 && IntRect(exit_yes.getPosition().x, exit_yes.getPosition().y, exit_yes.getLocalBounds().width * 1.5,
-                                              exit_yes.getLocalBounds().height + exit_yes.getCharacterSize()/3).contains(Mouse::getPosition(window)))
+                                              exit_yes.getLocalBounds().height + exit_yes.getCharacterSize()/3).contains(Mouse::getPosition(Exit)))
             {
                 if(event_exit.key.code == Keyboard::Enter || Mouse::isButtonPressed(Mouse::Left))
                 {
-                    window.close();
+                    return 1;
                     //RoundOutput("../../SystemFiles/Rounds.cfg", 0);
                 }
             } else if (exit_selected == 1 && IntRect(exit_no.getPosition().x, exit_no.getPosition().y, exit_no.getLocalBounds().width * 1.5,
-                                                     exit_no.getLocalBounds().height + exit_no.getCharacterSize()/3).contains(Mouse::getPosition(window)))
+                                                     exit_no.getLocalBounds().height + exit_no.getCharacterSize()/3).contains(Mouse::getPosition(Exit)))
             {
                 if(event_exit.key.code == Keyboard::Enter || Mouse::isButtonPressed(Mouse::Left))
                 {
                     sleep(milliseconds(100));
-                    //menuOptions(window); return;
+                    Exit.close();
+                    /*menuOptions*///menu(window);
                 }
             }
 
@@ -93,9 +98,10 @@ void Exit(RenderWindow& window)
             else if (exit_selected == 0)
             {exit_no.setFillColor(buttons_color); exit_yes.setFillColor(buttons_chosen);}
         }
-        window.draw(ExitShape);
-        window.draw(exit_text); window.draw(exit_yes); window.draw(exit_no);
-        window.display();
+        Exit.draw(ExitShape);
+        Exit.draw(exit_text); Exit.draw(exit_yes); Exit.draw(exit_no);
+        Exit.display();
     }
+    return 0;
 }
 #endif //SF_EXIT_H

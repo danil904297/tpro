@@ -1,12 +1,13 @@
 #ifndef SF_MENU_H
 #define SF_MENU_H
-#pragma once
+
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <string>
 #include "nastr.h"
 #include "options.h"
 #include "exitConfirmation.h"
+#include "exit.h"
 using namespace sf;
 
 
@@ -81,18 +82,146 @@ void menu(RenderWindow& window) {
 
                     menuNastr(window);
 
+
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 2) {
-                    menuOptions(window);
+                    if(menuOptions() == 1) {
+                        while (isMenu) {
+                            Vector2u size = window.getSize();
+                            int width = size.x;
+                            int height = size.y;
+                            menu1 = 0;
+                            button1.setColor(Color::White);
+                            button2.setColor(Color::White);
+                            button3.setColor(Color::White);
+
+                            if (IntRect(width / 2 - width / 12.8, height / 4 + height / 4.7, width / 4.8, height / 10.8).contains(
+                                    Mouse::getPosition(window))) {
+                                button1.setColor(Color::Red);
+                                menu1 = 2;
+                            }
+                            if (IntRect(width / 2 - width / 19.2, height / 4 + height / 36, width / 6.4, height / 10.8).contains(
+                                    Mouse::getPosition(window))) {
+                                button2.setColor(Color::Red);
+                                menu1 = 1;
+                            }
+                            if (IntRect(width / 2 - width / 22, height / 4 + height / 2.51, width / 7, height / 10.8).contains(
+                                    Mouse::getPosition(window))) {
+                                button3.setColor(Color::Red);
+                                menu1 = 3;
+                            }
+
+                            sf::Event event;
+                            while (window.pollEvent(event)) {
+                                if (Mouse::isButtonPressed(Mouse::Left)) {
+                                    if (menu1 == 1) {
+
+                                        menuNastr(window);
+
+
+                                    }
+                                }
+                                if (Mouse::isButtonPressed(Mouse::Left)) {
+                                    if (menu1 == 2) {
+                                        if(menuOptions() == 1) {
+                                            while (isMenu) {
+                                                Vector2u size = window.getSize();
+                                                int width = size.x;
+                                                int height = size.y;
+                                                menu1 = 0;
+                                                button1.setColor(Color::White);
+                                                button2.setColor(Color::White);
+                                                button3.setColor(Color::White);
+
+                                                if (IntRect(width / 2 - width / 12.8, height / 4 + height / 4.7, width / 4.8, height / 10.8).contains(
+                                                        Mouse::getPosition(window))) {
+                                                    button1.setColor(Color::Red);
+                                                    menu1 = 2;
+                                                }
+                                                if (IntRect(width / 2 - width / 19.2, height / 4 + height / 36, width / 6.4, height / 10.8).contains(
+                                                        Mouse::getPosition(window))) {
+                                                    button2.setColor(Color::Red);
+                                                    menu1 = 1;
+                                                }
+                                                if (IntRect(width / 2 - width / 22, height / 4 + height / 2.51, width / 7, height / 10.8).contains(
+                                                        Mouse::getPosition(window))) {
+                                                    button3.setColor(Color::Red);
+                                                    menu1 = 3;
+                                                }
+
+                                                sf::Event event;
+                                                while (window.pollEvent(event)) {
+                                                    if (Mouse::isButtonPressed(Mouse::Left)) {
+                                                        if (menu1 == 1) {
+
+                                                            menuNastr(window);
+
+
+                                                        }
+                                                    }
+                                                    if (Mouse::isButtonPressed(Mouse::Left)) {
+                                                        if (menu1 == 2) {
+                                                            if(menuOptions() == 1) {
+
+                                                            }
+
+                                                        }
+                                                    }
+                                                    if (Mouse::isButtonPressed(Mouse::Left)) {
+                                                        if (menu1 == 3) {
+                                                            Exit();
+                                                            if(Exit()==1){
+                                                                window.close();
+
+                                                            }
+
+                                                        }
+                                                    }
+                                                }
+
+                                                window.draw(background);
+                                                window.draw(Titul);
+                                                window.draw(button1);
+                                                window.draw(button2);
+                                                window.draw(button3);
+                                                window.display();
+                                            }
+                                        }
+
+                                    }
+                                }
+                                if (Mouse::isButtonPressed(Mouse::Left)) {
+                                    if (menu1 == 3) {
+                                        Exit();
+                                        if(Exit()==1){
+                                            window.close();
+
+                                        }
+
+                                    }
+                                }
+                            }
+
+                            window.draw(background);
+                            window.draw(Titul);
+                            window.draw(button1);
+                            window.draw(button2);
+                            window.draw(button3);
+                            window.display();
+                        }
+                    }
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 3) {
+                    Exit();
+                    if(Exit()==1){
+                        window.close();
 
-                    exitConfirmation();
+                    }
 
                 }
             }

@@ -4,12 +4,17 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <string>
+#include "ExitOne.h"
+
+
+
 
 using namespace sf;
 
 
-void menuOptions(RenderWindow& window) {
+int menuOptions() {
 
+    sf::RenderWindow Options(sf::VideoMode(1920, 1080), "Трон");
     Image Icon;
     Icon.loadFromFile("../menu/icon.jpg");
 
@@ -85,20 +90,20 @@ void menuOptions(RenderWindow& window) {
     buttonfastgame.setPosition(width / 2 - width / 2.3, height / 4 + height / 3);
     button1.setPosition(width / 3 - width / 12.8, height / 4 + height / 4.7);
     button3.setPosition(width / 2 - width / 12.8, height / 4 + height / 2);
-    buttonblue.setPosition(width / 3 + width / 4.5, height / 4 - height / 25);
-    buttonred.setPosition(width / 3.5 + width / 2.3, height / 4 - height / 25);
-    buttonwhite.setPosition(width / 4 + width / 2.5, height / 4 - height / 25);
-    window.setIcon(562, 1000, Icon.getPixelsPtr());
+    buttonwhite.setPosition(width / 3 + width / 4.5, height / 4 - height / 25);
+    buttonred.setPosition(width / 3.5 + width / 1.9, height / 4 - height / 25);
+    buttonblue.setPosition(width / 4 + width / 2.3, height / 4 - height / 25);
+    Options.setIcon(562, 1000, Icon.getPixelsPtr());
     while (isMenu) {
-        Vector2u size = window.getSize();
+        Vector2u size = Options.getSize();
         int width = size.x;
         int height = size.y;
         menu1 = 0;
         button1.setColor(Color(255, 188, 128, 128));
 
         button3.setColor(Color(255, 255, 255, 128));
-        buttonmulty.setColor(sf::Color::Red);
-        buttonfastgame.setColor(sf::Color::Red);
+        buttonmulty.setColor(sf::Color::White);
+        buttonfastgame.setColor(sf::Color::White);
         buttonblue.setColor(sf::Color::White);
         buttonred.setColor(sf::Color::White);
         buttonwhite.setColor(sf::Color::White);
@@ -107,20 +112,38 @@ void menuOptions(RenderWindow& window) {
 
 
         if (IntRect(width / 2 - width / 2.3, height / 4 + height / 4, width / 2 - width / 2.8, height / 4 + height / 3).contains(
-                Mouse::getPosition(window))) {
+                Mouse::getPosition(Options))) {
             buttonfastgame.setColor(Color::White);
             menu1 = 2;
         }
 
         if (IntRect(width / 2 - width / 2.5, height / 4 - height / 25, width / 2 - width / 2.5, height / 4 - height / 15).contains(
-                Mouse::getPosition(window))) {
-            buttonmulty.setColor(Color::White);
+                Mouse::getPosition(Options))) {
+            buttonmulty.setColor(Color::Green);
             menu1 = 4;
         }
 
         if (IntRect(width / 2 - width / 12.8, height / 4 + height / 2, width / 7, height / 10.8).contains(
-                Mouse::getPosition(window))) {
-            button3.setColor(Color::White);
+                Mouse::getPosition(Options))) {
+            button3.setColor(Color::Green);
+            menu1 = 3;
+        }
+
+        if (IntRect(width / 3 + width / 4.5, height / 4 - height / 25, width / 3 + width / 2.5, height / 4).contains(
+                Mouse::getPosition(Options))) {
+            buttonwhite.setColor(Color::Green);
+            menu1 = 3;
+        }
+
+        if (IntRect(width / 4 + width / 3, height / 4 - height / 25, width / 3 + width / 4, height / 4).contains(
+                Mouse::getPosition(Options))) {
+            buttonblue.setColor(Color::Green);
+            menu1 = 3;
+        }
+
+        if (IntRect(width / 3.5 + width / 6, height / 4 - height / 25, width / 3 + width / 8, height / 4).contains(
+                Mouse::getPosition(Options))) {
+            buttonred.setColor(Color::Black);
             menu1 = 3;
         }
 
@@ -129,7 +152,7 @@ void menuOptions(RenderWindow& window) {
 
 
         sf::Event event;
-        while (window.pollEvent(event)) {
+        while (Options.pollEvent(event)) {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 1) {
 
@@ -152,25 +175,25 @@ void menuOptions(RenderWindow& window) {
 
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 3) {
-                    window.close();
-                    isMenu = false;
+                    if(ExitOne()==1) {Options.close(); return 1;}
                 }
             }
         }
 
 
 
-        window.draw(background);
-        window.draw(text);
-        window.draw(text1);
-        window.draw(button1);
-        window.draw(buttonfastgame);
-        window.draw(buttonmulty);
-        window.draw(buttonblue);
-        window.draw(buttonred);
-        window.draw(buttonwhite);
-        window.draw(button3);
-        window.display();
+        Options.draw(background);
+        Options.draw(text);
+        Options.draw(text1);
+        Options.draw(button1);
+        Options.draw(buttonfastgame);
+        Options.draw(buttonmulty);
+        Options.draw(buttonblue);
+        Options.draw(buttonred);
+        Options.draw(buttonwhite);
+        Options.draw(button3);
+        Options.display();
     }
+    return 0;
 }
 #endif //SF_OPTIONS_H
