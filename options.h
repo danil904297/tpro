@@ -37,7 +37,7 @@ int menuOptions() {
     Texture red;
     Texture white;
     fastGame.loadFromFile("../menu/strelki.png");
-    multyGame.loadFromFile("../menu/wsad.jpg");
+    multyGame.loadFromFile("../menu/wasd.png");
     textureExit.loadFromFile("../menu/exit.jpg");
     blue.loadFromFile("../menu/blue.png");
     red.loadFromFile("../menu/red.png");
@@ -47,6 +47,7 @@ int menuOptions() {
 
     sf::Font font;
     font.loadFromFile("../cmake-build-debug/arial.ttf");
+    std::string name;
     sf::Text text, text1;
     text.setFont(font);
     text1.setFont(font);
@@ -95,6 +96,8 @@ int menuOptions() {
     buttonblue.setPosition(width / 4 + width / 2.3, height / 4 - height / 25);
     Options.setIcon(562, 1000, Icon.getPixelsPtr());
     while (isMenu) {
+
+
         Vector2u size = Options.getSize();
         int width = size.x;
         int height = size.y;
@@ -123,25 +126,26 @@ int menuOptions() {
             menu1 = 4;
         }
 
-        if (IntRect(width / 2 - width / 12.8, height / 4 + height / 2, width / 7, height / 10.8).contains(
+        if (IntRect(width / 2 - width / 12.8, height / 4 + height / 2, width / 4.7, height / 10.8).contains(
                 Mouse::getPosition(Options))) {
             button3.setColor(Color::Green);
             menu1 = 3;
+
         }
 
-        if (IntRect(width / 3 + width / 4.5, height / 4 - height / 25, width / 3 + width / 2.5, height / 4).contains(
+        if (IntRect(width / 3 + width / 4.5, height / 4 - height / 25, width / 140 + width / 14, height / 6).contains(
                 Mouse::getPosition(Options))) {
             buttonwhite.setColor(Color::Green);
             menu1 = 3;
         }
 
-        if (IntRect(width / 4 + width / 3, height / 4 - height / 25, width / 3 + width / 4, height / 4).contains(
+        if (IntRect(width / 4 + width / 2.3, height / 4 - height / 25, width / 120 + width / 14, height / 6).contains(
                 Mouse::getPosition(Options))) {
-            buttonblue.setColor(Color::Green);
+            buttonblue.setColor(Color::Red);
             menu1 = 3;
         }
 
-        if (IntRect(width / 3.5 + width / 6, height / 4 - height / 25, width / 3 + width / 8, height / 4).contains(
+        if (IntRect(width / 3.5 + width / 1.9, height / 4 - height / 25, width / 100 + width / 14, height / 6).contains(
                 Mouse::getPosition(Options))) {
             buttonred.setColor(Color::Black);
             menu1 = 3;
@@ -150,6 +154,7 @@ int menuOptions() {
 
 
 
+        bool isEnteringName = false;
 
         sf::Event event;
         while (Options.pollEvent(event)) {
@@ -176,6 +181,39 @@ int menuOptions() {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 3) {
                     if(ExitOne()==1) {Options.close(); return 1;}
+                }
+            }
+            if (event.type == sf::Event::Closed)
+                Options.close();
+
+            if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Return)
+            {
+                if (isEnteringName)
+                {
+                    isEnteringName = false;
+                }
+                else
+                {
+                    isEnteringName = true;
+                    name.clear();
+                    text.setString("");
+                }
+            }
+
+            if (event.type == sf::Event::TextEntered && isEnteringName)
+            {
+                if (event.text.unicode < 128)
+                {
+                    if (event.text.unicode == '\b' && !name.empty())
+                    {
+                        name.pop_back();
+                    }
+                    else if (event.text.unicode != '\b')
+                    {
+                        name += event.text.unicode;
+                    }
+
+                    text.setString(name);
                 }
             }
         }

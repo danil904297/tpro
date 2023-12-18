@@ -30,17 +30,18 @@ void menuNastr(RenderWindow& window) {
     background.setTexture(&Texture_window);
 
 
-    Texture textureBase;
     Texture fastGame;
     Texture multyGame;
     Texture twoPlayer;
+    Texture bot1;
+    Texture bot2;
+    Texture bot5;
     twoPlayer.loadFromFile("../menu/duo.png");
     fastGame.loadFromFile("../menu/fastgame.png");
     multyGame.loadFromFile("../menu/multygame.jpg");
-
-
-
-
+    bot1.loadFromFile("../menu/1.png");
+    bot2.loadFromFile("../menu/2.png");
+    bot5.loadFromFile("../menu/5.png");
 
     sf::Font font;
     font.loadFromFile("../cmake-build-debug/arial.ttf");
@@ -71,17 +72,22 @@ void menuNastr(RenderWindow& window) {
     bool isMenu = true;
     int menu1 = 0;
 
-    Sprite  button1, button2, button3, buttonfastgame, buttonmulty, buttontwoPlayer,  buttontext;
+    Sprite  button1, buttonfastgame, buttonmulty, buttontwoPlayer, buttonbot1, buttonbot2, buttonbot5;
     buttontwoPlayer.setTexture(twoPlayer);
 
     buttonfastgame.setTexture(fastGame);
     buttonmulty.setTexture(multyGame);
+    buttonbot1.setTexture(bot1);
+    buttonbot2.setTexture(bot2);
+    buttonbot5.setTexture(bot5);
 
     buttonmulty.setPosition(width / 2 - width / 2.3, height / 4 - height / 3);
     buttonfastgame.setPosition(width / 2 - width / 2.3, height / 4 + height / 3);
     button1.setPosition(width / 3 - width / 12.8, height / 4 + height / 4.7);
-
-    buttontwoPlayer.setPosition(width / 2 + width / 4.5, height / 4 - height / 4);
+    buttonbot1.setPosition(width / 1.9 + width / 8, height / 1.5 - height / 100);
+    buttonbot2.setPosition(width / 1.6 + width / 7.5, height / 1.5 - height / 100);
+    buttonbot5.setPosition(width / 1.4 + width / 7, height / 1.5 - height / 100);
+    buttontwoPlayer.setPosition(width / 2 + width / 7, height / 4 - height / 6);
     window.setIcon(562, 1000, Icon.getPixelsPtr());
     while (isMenu) {
         Vector2u size = window.getSize();
@@ -89,36 +95,45 @@ void menuNastr(RenderWindow& window) {
         int height = size.y;
         menu1 = 0;
         button1.setColor(Color(255, 188, 128, 128));
-        buttonmulty.setColor(sf::Color::Red);
-        buttonfastgame.setColor(sf::Color::Red);
-        buttontwoPlayer.setColor(sf::Color::Red);
+        buttonmulty.setColor(sf::Color::White);
+        buttonfastgame.setColor(sf::Color::White);
+        buttontwoPlayer.setColor(sf::Color::White);
+        buttonbot1.setColor(sf::Color::White);
+        buttonbot2.setColor(sf::Color::White);
+        buttonbot5.setColor(sf::Color::White);
 
 
-
-        if (IntRect(width / 2 - width / 2.3, height / 4 + height / 4, width / 2, height /3).contains(
+        if (IntRect(width / 1.9 + width / 8, height / 1.5 - height / 100, width / 4.7 - width / 8, height / 1.5 - height / 100).contains(
                 Mouse::getPosition(window))) {
-            buttonfastgame.setColor(Color::White);
-            menu1 = 2;
-        }
-        if (IntRect(width / 2 - width / 2.3, height / 4 + height / 4, width / 2, height /3).contains(
-                Mouse::getPosition(window))) {
-            buttontwoPlayer.setColor(Color::White);
-            menu1 = 2;
-        }
-        if (IntRect(width / 2 - width / 2.3, height / 4 - height / 3, width / 2, height /3).contains(
-                Mouse::getPosition(window))) {
-            buttonmulty.setColor(Color::White);
+            buttonbot1.setColor(Color::Red);
             menu1 = 4;
         }
-
-        if (IntRect(width / 7, height / 5,width / 7,59).contains(
+        if (IntRect(width / 1.6 + width / 7.5, height / 1.5 - height / 100, width / 4.7 - width / 8, height / 1.5 - height / 100).contains(
                 Mouse::getPosition(window))) {
-            buttontext.setColor(Color::Green);
+            buttonbot2.setColor(Color::Red);
+            menu1 = 5;
+        }
+        if (IntRect(width / 1.4 + width / 7, height / 1.5 - height / 100, width / 4.7 - width / 8, height / 1.5 - height / 100).contains(
+                Mouse::getPosition(window))) {
+            buttonbot5.setColor(Color::Red);
+            menu1 = 6;
+        }
+        if (IntRect(width / 2 - width / 2.3, height / 4 + height / 4, width / 4, height /3).contains(
+                Mouse::getPosition(window))) {
+            buttonfastgame.setColor(Color::Red);
+            menu1 = 2;
         }
 
-        if (IntRect(width / 2 + width / 4.5, height / 4 - height / 4, width / 7, height / 10.8).contains(
+        if (IntRect(width / 2 - width / 2.3, height / 4 - height / 3, width / 2, height /3).contains(
                 Mouse::getPosition(window))) {
-            buttontwoPlayer.setColor(Color::White);
+            buttonmulty.setColor(Color::Red);
+            menu1 = 3;
+        }
+
+
+        if (IntRect(width / 2 + width / 7, height / 4 - height / 6, width / 2, height /3).contains(
+                Mouse::getPosition(window))) {
+            buttontwoPlayer.setColor(Color::Red);
             menu1 = 1;
         }
 
@@ -139,8 +154,29 @@ void menuNastr(RenderWindow& window) {
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
+                if (menu1 == 3) {
+
+
+                }
+            }
+            if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 4) {
 
+                    latsgo();
+
+                }
+            }
+            if (Mouse::isButtonPressed(Mouse::Left)) {
+                if (menu1 == 5) {
+
+                    latsgo();
+
+                }
+            }
+            if (Mouse::isButtonPressed(Mouse::Left)) {
+                if (menu1 == 6) {
+
+                    latsgo();
 
                 }
             }
@@ -157,6 +193,9 @@ void menuNastr(RenderWindow& window) {
         window.draw(buttonfastgame);
         window.draw(buttonmulty);
         window.draw(buttontwoPlayer);
+        window.draw(buttonbot1);
+        window.draw(buttonbot2);
+        window.draw(buttonbot5);
 
 
         window.display();
