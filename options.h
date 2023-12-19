@@ -25,7 +25,7 @@ int menuOptions() {
 
     RectangleShape background(Vector2f(width, height));
     Texture Texture_window;
-    Texture_window.loadFromFile("../menu/fon.png");
+    Texture_window.loadFromFile("../menu/fon.jpeg");
     background.setTexture(&Texture_window);
 
 
@@ -37,7 +37,7 @@ int menuOptions() {
     Texture red;
     Texture white;
     fastGame.loadFromFile("../menu/strelki.png");
-    multyGame.loadFromFile("../menu/wasd.png");
+    multyGame.loadFromFile("../menu/wasd++.png");
     textureExit.loadFromFile("../menu/exit.jpg");
     blue.loadFromFile("../menu/blue.png");
     red.loadFromFile("../menu/red.png");
@@ -87,8 +87,8 @@ int menuOptions() {
     buttonred.setTexture(red);
     buttonwhite.setTexture(white);
 
-    buttonmulty.setPosition(width / 2 - width / 2.3, height / 4 - height / 25);
-    buttonfastgame.setPosition(width / 2 - width / 2.3, height / 4 + height / 3);
+    buttonmulty.setPosition(width / 4 - width / 4.5, height / 4 - height / 25);
+    buttonfastgame.setPosition(width / 4 - width / 4.5, height / 4 + height / 3);
     button1.setPosition(width / 3 - width / 12.8, height / 4 + height / 4.7);
     button3.setPosition(width / 2 - width / 12.8, height / 4 + height / 2);
     buttonwhite.setPosition(width / 3 + width / 4.5, height / 4 - height / 25);

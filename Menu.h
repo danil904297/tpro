@@ -24,7 +24,7 @@ void menu(RenderWindow& window) {
 
     RectangleShape background(Vector2f(width, height));
     Texture Texture_window;
-    Texture_window.loadFromFile("../menu/fomMenu.jpg");
+    Texture_window.loadFromFile("../menu/preview.jpg");
     background.setTexture(&Texture_window);
 
     Texture textureClicked;
@@ -80,7 +80,8 @@ void menu(RenderWindow& window) {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 1) {
 
-                    menuNastr(window);
+                    menuNastr();
+
 
 
                 }
@@ -118,7 +119,7 @@ void menu(RenderWindow& window) {
                                 if (Mouse::isButtonPressed(Mouse::Left)) {
                                     if (menu1 == 1) {
 
-                                        menuNastr(window);
+                                        menuNastr();
 
 
                                     }
@@ -156,7 +157,7 @@ void menu(RenderWindow& window) {
                                                     if (Mouse::isButtonPressed(Mouse::Left)) {
                                                         if (menu1 == 1) {
 
-                                                            menuNastr(window);
+                                                            menuNastr();
 
 
                                                         }
