@@ -142,7 +142,7 @@ void menuNastr(RenderWindow& window) {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 4) {
 
-                    latsgoWithBot();
+                    latsgoWithThreeBot();
                 }
             }
 
