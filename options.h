@@ -5,6 +5,7 @@
 #include <iostream>
 #include <string>
 #include "ExitOne.h"
+#include "win.h"
 
 
 
@@ -36,40 +37,50 @@ int menuOptions() {
     Texture blue;
     Texture red;
     Texture white;
+    Texture pink;
+    Texture circle;
     fastGame.loadFromFile("../menu/strelki.png");
     multyGame.loadFromFile("../menu/wasd++.png");
-    textureExit.loadFromFile("../menu/exit.jpg");
+    textureExit.loadFromFile("../menu/exit2.png");
     blue.loadFromFile("../menu/blue.png");
     red.loadFromFile("../menu/red.png");
-    white.loadFromFile("../menu/whete.png");
+    white.loadFromFile("../menu/green.png");
+    pink.loadFromFile("../menu/p!nk.png");
+    circle.loadFromFile("../menu/ring+.png");
 
 
 
     sf::Font font;
     font.loadFromFile("../cmake-build-debug/arial.ttf");
     std::string name;
-    sf::Text text, text1;
+    sf::Text text, text1, color;
     text.setFont(font);
     text1.setFont(font);
+    color.setFont(font);
 
-
+    color.setString("Select color");
     text.setString("Enter your name");
     text1.setString("Select control");
 
     text.setStyle(sf::Text::Bold | sf::Text::Underlined);
     text1.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    color.setStyle(sf::Text::Bold | sf::Text::Underlined);
 
-    text.setPosition(width / 2 + width / 4.5, height / 4 + height / 4);
+    text.setPosition(width / 2 + width / 4.5, height / 4 + height / 2.3);
     text1.setPosition(width / 2 - width / 2.3, height / 4 + height / 4);
+    color.setPosition(width / 2 + width / 4.2, height / 8 + height / 80);
+
 
 
 // set the character size
     text.setCharacterSize(36); // in pixels, not points!
     text1.setCharacterSize(36);
+    color.setCharacterSize(36);
 
 // set the color
-    text.setFillColor(sf::Color(255, 188, 128, 128));
+    text.setFillColor(sf::Color::Red);
     text1.setFillColor(sf::Color::Red);
+    color.setFillColor(sf::Color::Red);
 
 
     bool isMenu = true;
@@ -77,7 +88,7 @@ int menuOptions() {
 
 
     //textureClicked.loadFromFile("../menu/play.jpg");
-    Sprite  button1, button2, button3, buttonfastgame, buttonmulty,  buttontext, buttonblue, buttonred, buttonwhite;
+    Sprite  button1, button3, buttonfastgame, buttonmulty,  buttontext, buttonblue, buttonred, buttonwhite, buttonpink, buttoncircle;
 
 
     button3.setTexture(textureExit);
@@ -86,14 +97,18 @@ int menuOptions() {
     buttonblue.setTexture(blue);
     buttonred.setTexture(red);
     buttonwhite.setTexture(white);
+    buttonpink.setTexture(pink);
+    buttoncircle.setTexture(circle);
 
     buttonmulty.setPosition(width / 4 - width / 4.5, height / 4 - height / 25);
     buttonfastgame.setPosition(width / 4 - width / 4.5, height / 4 + height / 3);
-    button1.setPosition(width / 3 - width / 12.8, height / 4 + height / 4.7);
-    button3.setPosition(width / 2 - width / 12.8, height / 4 + height / 2);
-    buttonwhite.setPosition(width / 3 + width / 4.5, height / 4 - height / 25);
-    buttonred.setPosition(width / 3.5 + width / 1.9, height / 4 - height / 25);
-    buttonblue.setPosition(width / 4 + width / 2.3, height / 4 - height / 25);
+    button3.setPosition(width / 2 - width / 7.4, height / 4 + height / 2.2);
+    buttonwhite.setPosition(width / 4 + width / 1.93, height / 4 - height / 18.3);
+    buttonred.setPosition(width / 3.5 + width / 1.87, height / 4 - height / 18.3);
+    buttonblue.setPosition(width / 4 + width / 2.14, height / 4 - height / 18.3);
+    buttonpink.setPosition(width / 4 + width / 1.93, height / 5 + height / 12);
+    buttoncircle.setPosition(width / 3 + width / 3.15, height / 4 - height / 4);
+
     Options.setIcon(562, 1000, Icon.getPixelsPtr());
     while (isMenu) {
 
@@ -102,7 +117,7 @@ int menuOptions() {
         int width = size.x;
         int height = size.y;
         menu1 = 0;
-        button1.setColor(Color(255, 188, 128, 128));
+        //button1.setColor(Color(255, 188, 128, 128));
 
         button3.setColor(Color(255, 255, 255, 128));
         buttonmulty.setColor(sf::Color::White);
@@ -110,25 +125,26 @@ int menuOptions() {
         buttonblue.setColor(sf::Color::White);
         buttonred.setColor(sf::Color::White);
         buttonwhite.setColor(sf::Color::White);
+        buttonpink.setColor(sf::Color::White);
 
 
 
 
         if (IntRect(width / 2 - width / 2.3, height / 4 + height / 4, width / 2 - width / 2.8, height / 4 + height / 3).contains(
                 Mouse::getPosition(Options))) {
-            buttonfastgame.setColor(Color::White);
-            menu1 = 2;
+            buttonfastgame.setColor(Color::Red);
+            menu1 = 1;
         }
 
         if (IntRect(width / 2 - width / 2.5, height / 4 - height / 25, width / 2 - width / 2.5, height / 4 - height / 15).contains(
                 Mouse::getPosition(Options))) {
-            buttonmulty.setColor(Color::Green);
+            buttonmulty.setColor(Color::Red);
             menu1 = 4;
         }
 
-        if (IntRect(width / 2 - width / 12.8, height / 4 + height / 2, width / 4.7, height / 10.8).contains(
+        if (IntRect(width / 2 - width / 7.4, height / 4 + height / 2.2, width / 4.7, height / 6.8).contains(
                 Mouse::getPosition(Options))) {
-            button3.setColor(Color::Green);
+            button3.setColor(Color::Red);
             menu1 = 3;
 
         }
@@ -150,6 +166,11 @@ int menuOptions() {
             buttonred.setColor(Color::Black);
             menu1 = 3;
         }
+        if (IntRect(width / 3.5 + width / 1.9, height / 4 - height / 20, width / 100 + width / 14, height / 6).contains(
+                Mouse::getPosition(Options))) {
+            buttonpink.setColor(Color::Red);
+            menu1 = 1;
+        }
 
 
 
@@ -161,7 +182,7 @@ int menuOptions() {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 1) {
 
-
+                    win();
 
                 }
             }
@@ -223,12 +244,15 @@ int menuOptions() {
         Options.draw(background);
         Options.draw(text);
         Options.draw(text1);
+        Options.draw(color);
         Options.draw(button1);
+        Options.draw(buttoncircle);
         Options.draw(buttonfastgame);
         Options.draw(buttonmulty);
         Options.draw(buttonblue);
         Options.draw(buttonred);
         Options.draw(buttonwhite);
+        Options.draw(buttonpink);
         Options.draw(button3);
         Options.display();
     }

@@ -32,10 +32,10 @@ void menu(RenderWindow& window) {
     Texture textureExit;
     Texture textureOptions;
        Texture textureTitul;
-    textureExit.loadFromFile("../menu/exit.jpg");
-    textureBase.loadFromFile("../menu/play.jpg");
-    textureOptions.loadFromFile("../menu/nastr.jpg");
-  textureTitul.loadFromFile("../menu/tron.jpg");
+    textureExit.loadFromFile("../menu/exit.png");
+    textureBase.loadFromFile("../menu/Start.png");
+    textureOptions.loadFromFile("../menu/opt.png");
+  textureTitul.loadFromFile("../menu/tron.png");
     bool isMenu = true;
     int menu1 = 0;
 
@@ -45,10 +45,10 @@ void menu(RenderWindow& window) {
     button2.setTexture(textureBase);
     button3.setTexture(textureExit);
     Titul.setTexture(textureTitul);
-    Titul.setPosition(width / 2 - width / 12.8, height / 10);
-    button1.setPosition(width / 2 - width / 12.8, height / 4 + height / 4.7);
-    button2.setPosition(width / 2 - width / 12.8, height / 4 + height / 36);
-    button3.setPosition(width / 2 - width / 12.8, height / 4 + height / 2.51);
+    Titul.setPosition(width / 2 - width / 2.5, height / 10 - height / 20);
+    button1.setPosition(width / 2 - width / 2.5, height / 4 + height / 4.7);
+    button2.setPosition(width / 2 - width / 2.5, height / 4 + height / 36);
+    button3.setPosition(width / 2 - width / 2.5, height / 4 + height / 2.51);
     window.setIcon(562, 1000, Icon.getPixelsPtr());
     while (isMenu) {
         Vector2u size = window.getSize();
@@ -59,17 +59,17 @@ void menu(RenderWindow& window) {
         button2.setColor(Color::White);
         button3.setColor(Color::White);
 
-        if (IntRect(width / 2 - width / 12.8, height / 4 + height / 4.7, width / 4.8, height / 10.8).contains(
+        if (IntRect(width / 2 - width / 2.5, height / 4 + height / 4.7, width / 4, height / 6).contains(
                 Mouse::getPosition(window))) {
             button1.setColor(Color::Red);
             menu1 = 2;
         }
-        if (IntRect(width / 2 - width / 19.2, height / 4 + height / 36, width / 6.4, height / 10.8).contains(
+        if (IntRect(width / 2 - width / 2.5, height / 4 + height / 36, width / 4.5, height / 6).contains(
                 Mouse::getPosition(window))) {
             button2.setColor(Color::Red);
             menu1 = 1;
         }
-        if (IntRect(width / 2 - width / 22, height / 4 + height / 2.51, width / 7, height / 10.8).contains(
+        if (IntRect(width / 2 - width / 2.5, height / 4 + height / 2.51, width / 4, height / 6).contains(
                 Mouse::getPosition(window))) {
             button3.setColor(Color::Red);
             menu1 = 3;
@@ -98,17 +98,17 @@ void menu(RenderWindow& window) {
                             button2.setColor(Color::White);
                             button3.setColor(Color::White);
 
-                            if (IntRect(width / 2 - width / 12.8, height / 4 + height / 4.7, width / 4.8, height / 10.8).contains(
+                            if (IntRect(width / 2 - width / 2.5, height / 4 + height / 4.7, width / 4, height / 6).contains(
                                     Mouse::getPosition(window))) {
                                 button1.setColor(Color::Red);
                                 menu1 = 2;
                             }
-                            if (IntRect(width / 2 - width / 19.2, height / 4 + height / 36, width / 6.4, height / 10.8).contains(
+                            if (IntRect(width / 2 - width / 2.5, height / 4 + height / 36, width / 4.5, height / 6).contains(
                                     Mouse::getPosition(window))) {
                                 button2.setColor(Color::Red);
                                 menu1 = 1;
                             }
-                            if (IntRect(width / 2 - width / 22, height / 4 + height / 2.51, width / 7, height / 10.8).contains(
+                            if (IntRect(width / 2 - width / 2.5, height / 4 + height / 2.51, width / 4, height / 6).contains(
                                     Mouse::getPosition(window))) {
                                 button3.setColor(Color::Red);
                                 menu1 = 3;
@@ -136,22 +136,21 @@ void menu(RenderWindow& window) {
                                                 button2.setColor(Color::White);
                                                 button3.setColor(Color::White);
 
-                                                if (IntRect(width / 2 - width / 12.8, height / 4 + height / 4.7, width / 4.8, height / 10.8).contains(
+                                                if (IntRect(width / 2 - width / 2.5, height / 4 + height / 4.7, width / 4, height / 6).contains(
                                                         Mouse::getPosition(window))) {
                                                     button1.setColor(Color::Red);
                                                     menu1 = 2;
                                                 }
-                                                if (IntRect(width / 2 - width / 19.2, height / 4 + height / 36, width / 6.4, height / 10.8).contains(
+                                                if (IntRect(width / 2 - width / 2.5, height / 4 + height / 36, width / 4.5, height / 6).contains(
                                                         Mouse::getPosition(window))) {
                                                     button2.setColor(Color::Red);
                                                     menu1 = 1;
                                                 }
-                                                if (IntRect(width / 2 - width / 22, height / 4 + height / 2.51, width / 7, height / 10.8).contains(
+                                                if (IntRect(width / 2 - width / 2.5, height / 4 + height / 2.51, width / 4, height / 6).contains(
                                                         Mouse::getPosition(window))) {
                                                     button3.setColor(Color::Red);
                                                     menu1 = 3;
                                                 }
-
                                                 sf::Event event;
                                                 while (window.pollEvent(event)) {
                                                     if (Mouse::isButtonPressed(Mouse::Left)) {
