@@ -27,6 +27,8 @@ int latsgoWithBot()
 
     int score1 = 0;
     int score2 = 0;
+    int count = 0;
+    int randomMove = 0;
 
     text1.setString("a");
     text2.setString(std::to_string(score2));
@@ -44,8 +46,8 @@ int latsgoWithBot()
     int dir1 = rand() % 4;
     int dir2 = rand() % 4;
 
-    Player Player1(pos1x, pos1y, dir1, sf::Color::Red);
-    Player Player2(pos2x, pos2y, dir2, sf::Color::Blue);
+    Player Player1(pos1x, pos1y, dir1, sf::Color::Blue);
+    Player Player2(pos2x, pos2y, dir2, sf::Color::Red);
 
     sf::VertexArray Wall;
 
@@ -94,11 +96,10 @@ int latsgoWithBot()
     Player1.changeDirection(dir1);
     Player2.changeDirection(dir2);
 
-    int botDirection = 0;
-
 
     while (window.isOpen()) // Game loop
     {
+        ++count;
         sf::Event event;
 
         while (window.pollEvent(event)) // Event loop
@@ -106,9 +107,44 @@ int latsgoWithBot()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
+        if(score1 == 10 || score2 ==10)
+        {
+            sf::RenderWindow window(sf::VideoMode(400, 200), "Поздравляю!");
+
+            sf::Font font;
+            font.loadFromFile("../cmake-build-debug/arial.ttf");
+
+            sf::Text text;
+            text.setFont(font);
+            text.setString("Win");
+            text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+
+            text.setPosition(100, 100);
+
+            text.setCharacterSize(36);
+            text.setFillColor(sf::Color::Red);
+
+            while (window.isOpen())
+            {
+                sf::Event event;
+                while (window.pollEvent(event))
+                {
+                    if (event.type == sf::Event::Closed)
+                        window.close();
+                }
+
+                window.clear();
+                window.draw(text);
+                window.display();
+            }
+
+            return 0;
+        }
 
         window.clear(sf::Color::Black);
-
+            if(count % 15 == 0) {
+                randomMove = std::rand() % 4;
+            }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) // Keyboard input
             Player1.changeDirection(up);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
@@ -118,13 +154,13 @@ int latsgoWithBot()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             Player1.changeDirection(right);
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+        if (randomMove == 0)
             Player2.changeDirection(up);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+        if (randomMove == 1)
             Player2.changeDirection(down);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        if (randomMove == 2)
             Player2.changeDirection(left);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        if (randomMove ==3)
             Player2.changeDirection(right);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
             window.close();

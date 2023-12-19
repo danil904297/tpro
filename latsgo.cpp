@@ -101,6 +101,8 @@ int latsgo()
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
+        if(score1 == 10 || score2 ==10)
+            window.close();
 
 		window.clear(sf::Color::Black);
 

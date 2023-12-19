@@ -1,8 +1,8 @@
 #pragma once
-const int WIDTH = 1024;
-const int HEIGHT = 768;
+const int WIDTH = 1440;
+const int HEIGHT = 1080;
 
-const float PLAYER_SPEED = 4.0;
+const float PLAYER_SPEED = 3.0;
 
 const int PLAYER_LENGTH = 10;
 const int PLAYER_HEIGHT = 5;
