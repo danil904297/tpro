@@ -1,23 +1,20 @@
 //
-// Created by Администратор on 17.12.2023.
+// Created by Администратор on 20.12.2023.
 //
 
-#ifndef SF_EXIT_H
-#define SF_EXIT_H
+#ifndef SF_GAMEOVER_H
+#define SF_GAMEOVER_H
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 
-#include "options.h"
-#include "Menu.h"
+
 
 using  namespace sf;
 
 
 
-void Exit(RenderWindow& window)
+int gameOver(RenderWindow& window)
 {
-
-    //sf::RenderWindow Exit(sf::VideoMode(1920, 1080), "Трон");
     Color buttons_color = Color::Black, buttons_chosen = Color::Red;
 
     int exit_width = 800, exit_height = 300;
@@ -31,18 +28,18 @@ void Exit(RenderWindow& window)
     Font font;
     if (!font.loadFromFile("../cmake-build-debug/arial.ttf")) exit(3);
 
-    Text exit_text("Do you want exit?", font, 75);
+    Text exit_text("You won", font, 75);
     exit_text.setFillColor(Color::Black);
     exit_text.setPosition(ExitShape.getPosition().x + (ExitShape.getLocalBounds().width - exit_text.getLocalBounds().width)/2, ExitShape.getPosition().y + 40);
 
-    Text exit_yes("Yes", font, 65);
+    Text exit_yes("Exit", font, 65);
     exit_yes.setFillColor(buttons_color);
     exit_yes.setPosition(ExitShape.getPosition().x + 100,
                          ExitShape.getPosition().y + ExitShape.getLocalBounds().height - exit_yes.getLocalBounds().height - 60);
 
-    Text exit_no("No", font, 65);
+    Text exit_no("Start again", font, 65);
     exit_no.setFillColor(buttons_chosen);
-    exit_no.setPosition(ExitShape.getPosition().x + ExitShape.getLocalBounds().width - 200,
+    exit_no.setPosition(ExitShape.getPosition().x + ExitShape.getLocalBounds().width - 350,
                         ExitShape.getPosition().y + ExitShape.getLocalBounds().height - exit_no.getLocalBounds().height - 60);
 
     int exit_selected = 1;
@@ -55,7 +52,7 @@ void Exit(RenderWindow& window)
             if (event_exit.type == Event::KeyReleased)
             {
                 if (event_exit.key.code == Keyboard::Escape) {
-                    return;
+                    return 1;
                 }
                 if(event_exit.type == Event::Closed) window.close();
             }
@@ -79,17 +76,15 @@ void Exit(RenderWindow& window)
             {
                 if(event_exit.key.code == Keyboard::Enter || Mouse::isButtonPressed(Mouse::Left))
                 {
-                    window.close();
-                    //RoundOutput("../../SystemFiles/Rounds.cfg", 0);
+                    return 1;
+
                 }
             } else if (exit_selected == 1 && IntRect(exit_no.getPosition().x, exit_no.getPosition().y, exit_no.getLocalBounds().width * 1.5,
                                                      exit_no.getLocalBounds().height + exit_no.getCharacterSize()/3).contains(Mouse::getPosition(window)))
             {
                 if(event_exit.key.code == Keyboard::Enter || Mouse::isButtonPressed(Mouse::Left))
                 {
-
-                    return;
-                    /*menuOptions*///menu(window);
+                    return 2;
                 }
             }
 
@@ -104,6 +99,6 @@ void Exit(RenderWindow& window)
         window.draw(exit_no);
         window.display();
     }
-    return;
+    return 2;
 }
-#endif //SF_EXIT_H
+#endif //SF_GAMEOVER_H

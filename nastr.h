@@ -10,14 +10,15 @@
 #include "ExitOne.h"
 #include "latsgo.cpp"
 #include "latsgoOne.cpp"
+#include "latsgoWithBot.cpp"
 
 
 using namespace sf;
 
 
-void menuNastr() {
+void menuNastr(RenderWindow& window) {
 
-    sf::RenderWindow nastr(sf::VideoMode(1920, 1080), "Трон");
+    //sf::RenderWindow nastr(sf::VideoMode(1920, 1080), "Трон");
     Image Icon;
     Icon.loadFromFile("../menu/icon.jpg");
 
@@ -90,9 +91,9 @@ void menuNastr() {
     buttonbot2.setPosition(width / 2 - width / 3.2, height / 1.5 - height / 100);
     buttonbot5.setPosition(width / 2 - width / 4.9, height / 1.5 - height / 100);
     buttontwoPlayer.setPosition(width / 2 + width / 9.5, height / 4 - height / 6);
-    nastr.setIcon(562, 1000, Icon.getPixelsPtr());
+    window.setIcon(562, 1000, Icon.getPixelsPtr());
     while (isMenu) {
-        Vector2u size = nastr.getSize();
+        Vector2u size = window.getSize();
         int width = size.x;
         int height = size.y;
         menu1 = 0;
@@ -105,63 +106,64 @@ void menuNastr() {
         buttonbot5.setColor(sf::Color::White);
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-            ExitOne();
-            if(ExitOne() == 1) {
-                nastr.close();
-            }
+            return;
+
         }
         if (IntRect(width / 4 - width /6, height / 1.5 - height / 100, width / 4.7 - width / 8, height / 1.5 - height / 10).contains(
-                Mouse::getPosition(nastr))) {
+                Mouse::getPosition(window))) {
             buttonbot1.setColor(Color::Red);
             menu1 = 4;
         }
         if (IntRect(width / 2 - width / 3.2, height / 1.5 - height / 100, width / 4.7 - width / 8, height / 1.5 - height / 100).contains(
-                Mouse::getPosition(nastr))) {
+                Mouse::getPosition(window))) {
             buttonbot2.setColor(Color::Red);
             menu1 = 5;
         }
         if (IntRect(width / 2 - width / 4.9, height / 1.5 - height / 100, width / 4.7 - width / 8, height / 1.5 - height / 100).contains(
-                Mouse::getPosition(nastr))) {
+                Mouse::getPosition(window))) {
             buttonbot5.setColor(Color::Red);
             menu1 = 6;
         }
         if (IntRect(width / 2 + width / 9.3, height / 4 + height / 3.3, width / 4.7 + width /7.5, height / 3 + height / 80).contains(
-                Mouse::getPosition(nastr))) {
+                Mouse::getPosition(window))) {
             buttonfastgame.setColor(Color::Red);
             menu1 = 2;
         }
 
         if (IntRect(width / 2 - width / 2.3, height / 4 - height / 6, width / 4.7 + width /7.5, height / 3 + height / 80).contains(
-                Mouse::getPosition(nastr))) {
+                Mouse::getPosition(window))) {
             buttonmulty.setColor(Color::Red);
             menu1 = 3;
         }
 
 
         if (IntRect(width / 2 + width / 9.5, height / 4 - height / 6, width / 4.7 + width /7.5, height / 3 + height / 80).contains(
-                Mouse::getPosition(nastr))) {
+                Mouse::getPosition(window))) {
             buttontwoPlayer.setColor(Color::Red);
             menu1 = 1;
         }
 
 
         sf::Event event;
-        while (nastr.pollEvent(event)) {
+        while (window.pollEvent(event)) {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 1) {
 
-                    latsgo();
+                    latsgo(window);
+
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 2) {
-                    latsgo1();
+                    latsgo1(window);
+
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 3) {
+                    latsgoWithBot(window);
 
 
                 }
@@ -169,21 +171,21 @@ void menuNastr() {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 4) {
 
-                    latsgo();
+                    latsgo(window);
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 5) {
 
-                    latsgo();
+                    latsgo(window);
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 6) {
 
-                    latsgo();
+
 
                 }
             }
@@ -193,19 +195,19 @@ void menuNastr() {
 
 
 
-        nastr.draw(background);
-        nastr.draw(text);
-        nastr.draw(text1);
-        nastr.draw(button1);
-        nastr.draw(buttonfastgame);
-        nastr.draw(buttonmulty);
-        nastr.draw(buttontwoPlayer);
-        nastr.draw(buttonbot1);
-        nastr.draw(buttonbot2);
-        nastr.draw(buttonbot5);
+        window.draw(background);
+        window.draw(text);
+        window.draw(text1);
+        window.draw(button1);
+        window.draw(buttonfastgame);
+        window.draw(buttonmulty);
+        window.draw(buttontwoPlayer);
+        window.draw(buttonbot1);
+        window.draw(buttonbot2);
+        window.draw(buttonbot5);
 
 
-        nastr.display();
+        window.display();
     }
 }
 
