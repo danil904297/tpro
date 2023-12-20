@@ -7,6 +7,11 @@
 #include "ExitOne.h"
 #include "win.h"
 #include "name.cpp"
+#include "global.h"
+#include "nlohmann/json.hpp"
+#include "fstream"
+#include "iostream"
+using json = nlohmann::json;
 
 
 
@@ -16,7 +21,7 @@ using namespace sf;
 
 void menuOptions(RenderWindow &window) {
 
-    //sf::RenderWindow Options(sf::VideoMode(1920, 1080), "Трон");
+
     Image Icon;
     Icon.loadFromFile("../menu/icon.jpg");
 
@@ -42,7 +47,7 @@ void menuOptions(RenderWindow &window) {
     Texture circle;
     fastGame.loadFromFile("../menu/strelki.png");
     multyGame.loadFromFile("../menu/wasd++.png");
-    textureExit.loadFromFile("../menu/exit2.png");
+    textureExit.loadFromFile("../menu/save.png");
     blue.loadFromFile("../menu/blue.png");
     red.loadFromFile("../menu/red.png");
     white.loadFromFile("../menu/green.png");
@@ -86,9 +91,10 @@ void menuOptions(RenderWindow &window) {
 
     bool isMenu = true;
     int menu1 = 0;
+    int scolor = 0;
 
 
-    //textureClicked.loadFromFile("../menu/play.jpg");
+
     Sprite  button1, button3, buttonfastgame, buttonmulty,  buttontext, buttonblue, buttonred, buttonwhite, buttonpink, buttoncircle;
 
 
@@ -100,6 +106,7 @@ void menuOptions(RenderWindow &window) {
     buttonwhite.setTexture(white);
     buttonpink.setTexture(pink);
     buttoncircle.setTexture(circle);
+
 
     buttonmulty.setPosition(width / 4 - width / 4.5, height / 4 - height / 25);
     buttonfastgame.setPosition(width / 4 - width / 4.5, height / 4 + height / 3);
@@ -118,6 +125,7 @@ void menuOptions(RenderWindow &window) {
         int width = size.x;
         int height = size.y;
         menu1 = 0;
+
         //button1.setColor(Color(255, 188, 128, 128));
 
         button3.setColor(Color(255, 255, 255, 128));
@@ -153,63 +161,87 @@ void menuOptions(RenderWindow &window) {
         if (IntRect(width / 4 + width / 1.93, height / 4 - height / 18.3, width / 80 + width / 33, height / 6 - height/11).contains(
                 Mouse::getPosition(window))) {
             buttonwhite.setColor(Color::Green);
-            menu1 = 3;
+            check_color = 1;
+            scolor = 1;
         }
 
         if (IntRect(width / 4 + width / 2.14, height / 4 - height / 18.3, width / 80 + width / 33, height / 6 - height/11).contains(
                 Mouse::getPosition(window))) {
             buttonblue.setColor(Color::Red);
-            menu1 = 3;
+            check_color = 2;
+            scolor = 2;
         }
 
 
         if (IntRect(width / 3.5 + width / 1.87, height / 4 - height / 18.3, width / 80 + width / 33, height / 6 - height/11).contains(
                 Mouse::getPosition(window))) {
             buttonred.setColor(Color::Black);
-            menu1 = 3;
+            check_color = 3;
+            scolor = 3;
         }
         if (IntRect(width / 4 + width / 1.93, height / 5 + height / 12, width / 80 + width / 33, height / 6 - height/11).contains(
                 Mouse::getPosition(window))) {
             buttonpink.setColor(Color::Red);
-            menu1 = 1;
+            check_color = 3;
+            scolor = 4;
         }
 
         if (IntRect(width / 4 + width / 1.93, height / 4 - height / 18.3, width / 80 + width / 33, height / 6 - height/11).contains(
                 Mouse::getPosition(window))) {
             buttonwhite.setColor(Color::Green);
-            menu1 = 3;
+            check_color = 1;
+            scolor = 1;
         }
 
 
 
 
         bool isEnteringName = false;
+        std::ifstream file("tekst.json");
+        json data = json::parse(file);
 
+        file.close();
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (menu1 == 1) {
 
-                    win(window);
-
-                }
-            }
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (menu1 == 2) {
-
-
-                }
-            }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 4) {
-
-                    name1();
+                    win(window);
+                    qwe = 0;
+                    data["qwe"] = 0;
+                    std::cout << data;
                 }
+                if (scolor == 1) {
+
+                    check_color = 1;
+                    data["Color"] = 1;
+                }
+                if (scolor == 2) {
+                    check_color = 2;
+                    data["Color"] = 2;
+                }
+                if (scolor == 3) {
+                    check_color = 3;
+                    data["Color"] = 3;
+                }
+                if (scolor == 4) {
+                    check_color = 0;
+                    data["Color"] = 4;
+
+                }
+                if (menu1 == 2) {
+                    qwe = 1;
+                    data["qwe"] = 1;
+                    std::cout << qwe;
+                }
+                std::ofstream file_close("tekst.json");
+                file_close << data;
+                file_close.close();
+
             }
 
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 3) {
-
                     return;
                 }
             }
