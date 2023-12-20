@@ -5,15 +5,15 @@
 #include "settings.h"
 #include "player.h"
 
-int latsgo1()
+void latsgo1(RenderWindow& window)
 {
-    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Tron Game", sf::Style::Titlebar | sf::Style::Close);
+    //sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Tron Game", sf::Style::Titlebar | sf::Style::Close);
     window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
 
     sf::Font font;
 
-    if (!font.loadFromFile("arial.ttf"))
+    if (!font.loadFromFile("../cmake-build-debug/arial.ttf"))
     {
         printf("Error: Loading a font\n");
     }
@@ -93,8 +93,15 @@ int latsgo1()
             Player1.changeDirection(left);
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
             Player1.changeDirection(right);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            window.close();
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+            Escape(window);
+            if (Escape(window) == 1) { return;}
+            if (Escape(window)== 2) {
+                score1= 0;
+
+            }
+            if (Escape(window)== 3) {}
+        }
 
 
         Vertex A = Player1.move();
@@ -158,5 +165,5 @@ int latsgo1()
         window.display();
     }
 
-    return 0;
+    return;
 }
