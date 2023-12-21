@@ -1,7 +1,3 @@
-//
-// Created by Администратор on 07.12.2023.
-//
-
 #ifndef SF_GAMESTARTEDWINDOW_CPP
 #define SF_GAMESTARTEDWINDOW_CPP
 #include "SFML/Graphics.hpp"
@@ -12,6 +8,7 @@
 #include "latsgoOne.cpp"
 #include "latsgoWithBot.cpp"
 #include "iostream"
+#include "menuDuo.h"
 using json = nlohmann::json;
 
 
@@ -19,7 +16,8 @@ using json = nlohmann::json;
 using namespace sf;
 
 
-void menuNastr(RenderWindow& window) {
+void menuNastr(RenderWindow& window)
+{
 
     //sf::RenderWindow nastr(sf::VideoMode(1920, 1080), "Трон");
     Image Icon;
@@ -161,17 +159,29 @@ void menuNastr(RenderWindow& window) {
 
                 }
                 if (menu1 == 6) {
-
-
                     data["bot"] = 3;
                 }
                 if (menu1 == 5) {
-
                     data["bot"] = 2;
-
                 }
+                std::ofstream file_close("tekst.json");
+                file_close << data;
+                file_close.close();
+
                 if (menu1 == 3) {
-                    latsgoWithBot(window);
+                    std::ifstream file("tekst.json");
+                    json data = json::parse(file);
+
+                    file.close();
+                    if(data["bot"] == 2){
+                        latsgoWithTwoBot(window);
+                    }
+                    if(data["bot"] == 3){
+                        latsgoWithThreeBot(window);
+                    }
+                    else {
+                        latsgoWithBot(window);
+                    }
 
 
                 }
@@ -182,7 +192,7 @@ void menuNastr(RenderWindow& window) {
                 }
                 if (menu1 == 1) {
 
-                    latsgo(window);
+                    menuDuo(window);
 
 
                 }

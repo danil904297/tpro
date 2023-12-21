@@ -1,13 +1,18 @@
+//
+// Created by Администратор on 21.12.2023.
+//
 
-//#ifndef SF_OPTIONS_H
-//#define SF_OPTIONS_H
-#pragma once
+#ifndef SF_MENUDUO_H
+#define SF_MENUDUO_H
+
+#ifndef SF_OPTIONS_H
+#define SF_OPTIONS_H
 #include "SFML/Graphics.hpp"
 
 #include <string>
 #include "ExitOne.h"
-
-//#include "name.cpp"
+#include "win.h"
+#include "name.cpp"
 #include "global.h"
 #include "external/nlohmann/json.hpp"
 #include "fstream"
@@ -20,7 +25,7 @@ using json = nlohmann::json;
 using namespace sf;
 
 
-void menuOptions(RenderWindow &window) {
+void menuDuo(RenderWindow &window) {
 
 
     Image Icon;
@@ -39,15 +44,13 @@ void menuOptions(RenderWindow &window) {
 
     Texture textureBase;
     Texture textureExit;
-    Texture fastGame;
-    Texture multyGame;
+
     Texture blue;
     Texture red;
     Texture white;
     Texture pink;
     Texture circle;
-    fastGame.loadFromFile("../menu/strelki.png");
-    multyGame.loadFromFile("../menu/wasd++.png");
+
     textureExit.loadFromFile("../menu/save.png");
     blue.loadFromFile("../menu/blue.png");
     red.loadFromFile("../menu/red.png");
@@ -100,8 +103,7 @@ void menuOptions(RenderWindow &window) {
 
 
     button3.setTexture(textureExit);
-    buttonfastgame.setTexture(fastGame);
-    buttonmulty.setTexture(multyGame);
+
     buttonblue.setTexture(blue);
     buttonred.setTexture(red);
     buttonwhite.setTexture(white);
@@ -109,8 +111,7 @@ void menuOptions(RenderWindow &window) {
     buttoncircle.setTexture(circle);
 
 
-    buttonmulty.setPosition(width / 4 - width / 4.5, height / 4 - height / 25);
-    buttonfastgame.setPosition(width / 4 - width / 4.5, height / 4 + height / 3);
+
     button3.setPosition(width / 2 - width / 7.4, height / 4 + height / 2.2);
     buttonwhite.setPosition(width / 4 + width / 1.93, height / 4 - height / 18.3);
     buttonred.setPosition(width / 3.5 + width / 1.87, height / 4 - height / 18.3);
@@ -130,8 +131,7 @@ void menuOptions(RenderWindow &window) {
         //button1.setColor(Color(255, 188, 128, 128));
 
         button3.setColor(Color(255, 255, 255, 128));
-        buttonmulty.setColor(sf::Color::White);
-        buttonfastgame.setColor(sf::Color::White);
+
         buttonblue.setColor(sf::Color::White);
         buttonred.setColor(sf::Color::White);
         buttonwhite.setColor(sf::Color::White);
@@ -140,17 +140,7 @@ void menuOptions(RenderWindow &window) {
 
 
 
-        if (IntRect(width / 2 - width / 2.3, height / 4 + height / 4, width / 2 - width / 2.8, height / 4 + height / 3).contains(
-                Mouse::getPosition(window))) {
-            buttonfastgame.setColor(Color::Red);
-            menu1 = 1;
-        }
 
-        if (IntRect(width / 2 - width / 2.5, height / 4 - height / 25, width / 2 - width / 2.5, height / 4 - height / 15).contains(
-                Mouse::getPosition(window))) {
-            buttonmulty.setColor(Color::Red);
-            menu1 = 4;
-        }
 
         if (IntRect(width / 2 - width / 7.4, height / 4 + height / 2.2, width / 4.7, height / 6.8).contains(
                 Mouse::getPosition(window))) {
@@ -205,36 +195,31 @@ void menuOptions(RenderWindow &window) {
         sf::Event event;
         while (window.pollEvent(event)) {
 
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                return;
+
+            }
             if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (menu1 == 4) {
-                    //win(window);
-                    qwe = 0;
-                    data["qwe"] = 0;
-                    std::cout << data;
-                }
+
                 if (scolor == 1) {
 
                     check_color = 1;
-                    data["Color"] = 1;
+                    data["Color1"] = 1;
                 }
                 if (scolor == 2) {
                     check_color = 2;
-                    data["Color"] = 2;
+                    data["Color1"] = 2;
                 }
                 if (scolor == 3) {
                     check_color = 3;
-                    data["Color"] = 3;
+                    data["Color1"] = 3;
                 }
                 if (scolor == 4) {
                     check_color = 0;
-                    data["Color"] = 4;
+                    data["Color1"] = 4;
 
                 }
-                if (menu1 == 2) {
-                    qwe = 1;
-                    data["qwe"] = 1;
-                    std::cout << qwe;
-                }
+
                 std::ofstream file_close("tekst.json");
                 file_close << data;
                 file_close.close();
@@ -243,7 +228,7 @@ void menuOptions(RenderWindow &window) {
 
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 3) {
-                    return;
+                    latsgo(window);
                 }
             }
             if (event.type == sf::Event::Closed) window.close();
@@ -255,8 +240,7 @@ void menuOptions(RenderWindow &window) {
         window.draw(color);
         window.draw(button1);
         window.draw(buttoncircle);
-        window.draw(buttonfastgame);
-        window.draw(buttonmulty);
+
         window.draw(buttonblue);
         window.draw(buttonred);
         window.draw(buttonwhite);
@@ -266,4 +250,6 @@ void menuOptions(RenderWindow &window) {
     }
     return;
 }
-//#endif //SF_OPTIONS_H
+#endif //SF_OPTIONS_H
+
+#endif //SF_MENUDUO_H
