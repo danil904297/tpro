@@ -4,6 +4,7 @@
 #include <string>
 #include "settings.h"
 #include "player.h"
+#include "escape.h"
 
 void latsgo1(RenderWindow& window)
 {

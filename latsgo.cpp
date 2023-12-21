@@ -48,6 +48,7 @@ void latsgo(RenderWindow& window)
     std::string color1 = "l";
     std::string color2 = "Yellow";
     sf::Color i;
+    sf::Color j;
 
 	text1.setString("a");
 	text2.setString(std::to_string(score2));
@@ -97,8 +98,25 @@ void latsgo(RenderWindow& window)
         color1 = "Magenta";
     }
 
+    if(data["Color1"] == 1) {
+        j = sf::Color::White;
+        color2 = "White";
+    }
+    if(data["Color1"] == 2) {
+        j = sf::Color::Blue;
+        color2 = "Blue";
+    }
+    if(data["Color1"] == 3) {
+        j = sf::Color::Red;
+        color2 = "Red";
+    }
+    if(data["Color1"] == 4) {
+        j = sf::Color::Magenta;
+        color2 = "Magenta";
+    }
+
     Player Player1(pos1x, pos1y, dir1, i);
-    Player Player2(pos2x, pos2y, dir2, sf::Color::Yellow);
+    Player Player2(pos2x, pos2y, dir2, j);
 
 	sf::VertexArray Wall;
 
@@ -179,6 +197,14 @@ void latsgo(RenderWindow& window)
             for(int i = 0; i < 20; ++i) {
                 resTime += timeArr[i];
             }
+            std::ifstream file("tekst.json");
+            json data = json::parse(file);
+            file.close();
+            data["countRound"] = curRound;
+            data["timeOfRound"] = resTime;
+            std::ofstream file_close("tekst.json");
+            file_close << data;
+            file_close.close();
 
             if (win(window) == 1){ return;}
             else {score2 = 0; score1 = 0;}
@@ -227,6 +253,11 @@ void latsgo(RenderWindow& window)
 			score2++;
 		if (Player2.isCrashed(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y))
 			score1++;
+        if(Player1.isCrashed(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y) &&
+        Player2.isCrashed(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y)){
+            score2--;
+            score1--;
+        }
 
 		bool crashed = 0;
 

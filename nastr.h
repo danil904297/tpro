@@ -1,13 +1,20 @@
 #ifndef SF_GAMESTARTEDWINDOW_CPP
 #define SF_GAMESTARTEDWINDOW_CPP
+
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <string>
 #include "ExitOne.h"
-#include "latsgo.cpp"
 #include "latsgoOne.cpp"
 #include "latsgoWithBot.cpp"
 #include "iostream"
+#include "menuDuo.h"
+using json = nlohmann::json;
+
+
+
+using namespace sf;
+
 using json = nlohmann::json;
 
 
@@ -191,7 +198,7 @@ void menuNastr(RenderWindow& window)
                 }
                 if (menu1 == 1) {
 
-                    latsgo(window);
+                    menuDuo(window);
 
 
                 }

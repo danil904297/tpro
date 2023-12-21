@@ -31,11 +31,11 @@ void menu(RenderWindow& window) {
     Texture textureBase;
     Texture textureExit;
     Texture textureOptions;
-       Texture textureTitul;
+    Texture textureTitul;
     textureExit.loadFromFile("../menu/exit.png");
     textureBase.loadFromFile("../menu/Start.png");
     textureOptions.loadFromFile("../menu/opt.png");
-  textureTitul.loadFromFile("../menu/tron.png");
+    textureTitul.loadFromFile("../menu/tron.png");
     bool isMenu = true;
     int menu1 = 0;
 
