@@ -11,13 +11,18 @@ add_executable(sf
         Menu.h
         main.cpp
         nastr.h
-        exitConfirmation.h
 
+        exit.h
         player.h
         options.h
         player.cpp
         settings.h
         escape.h
+        lose.h
+        ExitOne.h
+        win.h
+        global.h
+
 
 
 )
