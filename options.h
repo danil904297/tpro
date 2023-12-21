@@ -3,11 +3,9 @@
 //#define SF_OPTIONS_H
 #pragma once
 #include "SFML/Graphics.hpp"
-
 #include <string>
 #include "ExitOne.h"
 
-//#include "name.cpp"
 #include "global.h"
 #include "external/nlohmann/json.hpp"
 #include "fstream"

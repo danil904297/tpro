@@ -59,18 +59,15 @@ void menu(RenderWindow& window) {
         button2.setColor(Color::White);
         button3.setColor(Color::White);
 
-        if (IntRect(width / 2 - width / 2.5, height / 4 + height / 4.7, width / 4, height / 6).contains(
-                Mouse::getPosition(window))) {
+        if (button1.getGlobalBounds().contains((float)Mouse::getPosition(window).x, (float)Mouse::getPosition(window).y)) {
             button1.setColor(Color::Red);
             menu1 = 2;
         }
-        if (IntRect(width / 2 - width / 2.5, height / 4 + height / 36, width / 4.5, height / 6).contains(
-                Mouse::getPosition(window))) {
+        if (button2.getGlobalBounds().contains((float)Mouse::getPosition(window).x, (float)Mouse::getPosition(window).y)) {
             button2.setColor(Color::Red);
             menu1 = 1;
         }
-        if (IntRect(width / 2 - width / 2.5, height / 4 + height / 2.51, width / 4, height / 6).contains(
-                Mouse::getPosition(window))) {
+        if (button3.getGlobalBounds().contains((float)Mouse::getPosition(window).x, (float)Mouse::getPosition(window).y)) {
             button3.setColor(Color::Red);
             menu1 = 3;
         }
@@ -80,7 +77,7 @@ void menu(RenderWindow& window) {
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 1) {
 
-                    menuNastr();
+                    menuNastr(window);
 
 
 
@@ -88,140 +85,17 @@ void menu(RenderWindow& window) {
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 2) {
-                    if(menuOptions() == 1) {
-                        while (isMenu) {
-                            Vector2u size = window.getSize();
-                            int width = size.x;
-                            int height = size.y;
-                            menu1 = 0;
-                            button1.setColor(Color::White);
-                            button2.setColor(Color::White);
-                            button3.setColor(Color::White);
-
-                            if (IntRect(width / 2 - width / 2.5, height / 4 + height / 4.7, width / 4, height / 6).contains(
-                                    Mouse::getPosition(window))) {
-                                button1.setColor(Color::Red);
-                                menu1 = 2;
-                            }
-                            if (IntRect(width / 2 - width / 2.5, height / 4 + height / 36, width / 4.5, height / 6).contains(
-                                    Mouse::getPosition(window))) {
-                                button2.setColor(Color::Red);
-                                menu1 = 1;
-                            }
-                            if (IntRect(width / 2 - width / 2.5, height / 4 + height / 2.51, width / 4, height / 6).contains(
-                                    Mouse::getPosition(window))) {
-                                button3.setColor(Color::Red);
-                                menu1 = 3;
-                            }
-
-                            sf::Event event;
-                            while (window.pollEvent(event)) {
-                                if (Mouse::isButtonPressed(Mouse::Left)) {
-                                    if (menu1 == 1) {
-
-                                        menuNastr();
+                    menuOptions(window);
 
 
-                                    }
-                                }
-                                if (Mouse::isButtonPressed(Mouse::Left)) {
-                                    if (menu1 == 2) {
-                                        if(menuOptions() == 1) {
-                                            while (isMenu) {
-                                                Vector2u size = window.getSize();
-                                                int width = size.x;
-                                                int height = size.y;
-                                                menu1 = 0;
-                                                button1.setColor(Color::White);
-                                                button2.setColor(Color::White);
-                                                button3.setColor(Color::White);
-
-                                                if (IntRect(width / 2 - width / 2.5, height / 4 + height / 4.7, width / 4, height / 6).contains(
-                                                        Mouse::getPosition(window))) {
-                                                    button1.setColor(Color::Red);
-                                                    menu1 = 2;
-                                                }
-                                                if (IntRect(width / 2 - width / 2.5, height / 4 + height / 36, width / 4.5, height / 6).contains(
-                                                        Mouse::getPosition(window))) {
-                                                    button2.setColor(Color::Red);
-                                                    menu1 = 1;
-                                                }
-                                                if (IntRect(width / 2 - width / 2.5, height / 4 + height / 2.51, width / 4, height / 6).contains(
-                                                        Mouse::getPosition(window))) {
-                                                    button3.setColor(Color::Red);
-                                                    menu1 = 3;
-                                                }
-                                                sf::Event event;
-                                                while (window.pollEvent(event)) {
-                                                    if (Mouse::isButtonPressed(Mouse::Left)) {
-                                                        if (menu1 == 1) {
-
-                                                            menuNastr();
-
-
-                                                        }
-                                                    }
-                                                    if (Mouse::isButtonPressed(Mouse::Left)) {
-                                                        if (menu1 == 2) {
-                                                            if(menuOptions() == 1) {
-
-                                                            }
-
-                                                        }
-                                                    }
-                                                    if (Mouse::isButtonPressed(Mouse::Left)) {
-                                                        if (menu1 == 3) {
-                                                            Exit();
-                                                            if(Exit()==1){
-                                                                window.close();
-
-                                                            }
-
-                                                        }
-                                                    }
-                                                }
-
-                                                window.draw(background);
-                                                window.draw(Titul);
-                                                window.draw(button1);
-                                                window.draw(button2);
-                                                window.draw(button3);
-                                                window.display();
-                                            }
-                                        }
-
-                                    }
-                                }
-                                if (Mouse::isButtonPressed(Mouse::Left)) {
-                                    if (menu1 == 3) {
-                                        Exit();
-                                        if(Exit()==1){
-                                            window.close();
-
-                                        }
-
-                                    }
-                                }
-                            }
-
-                            window.draw(background);
-                            window.draw(Titul);
-                            window.draw(button1);
-                            window.draw(button2);
-                            window.draw(button3);
-                            window.display();
-                        }
-                    }
 
                 }
             }
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 3) {
-                    Exit();
-                    if(Exit()==1){
-                        window.close();
+                    Exit(window);
 
-                    }
+
 
                 }
             }

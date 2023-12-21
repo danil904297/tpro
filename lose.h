@@ -1,7 +1,9 @@
+//
+// Created by Администратор on 18.12.2023.
+//
 
-#ifndef SF_WIN_H
-#define SF_WIN_H
-
+#ifndef SF_LOSE_H
+#define SF_LOSE_H
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
 #include "external/nlohmann/json.hpp"
@@ -15,7 +17,7 @@ using  namespace sf;
 
 
 
-int win(RenderWindow& window)
+int lose(RenderWindow& window)
 {
     Color buttons_color = Color::Black, buttons_chosen = Color::Red;
     std::ifstream file("tekst.json");
@@ -39,13 +41,11 @@ int win(RenderWindow& window)
     int win_width = 1200, win_height = 1000;
     RectangleShape ExitShape;
     Texture Texture_window;
-    Texture_window.loadFromFile("../menu/win.jpg");
+    Texture_window.loadFromFile("../menu/lose.jpg");
     ExitShape.setTexture(&Texture_window);
     ExitShape.setPosition(Vector2f(VideoMode::getDesktopMode().width/2 - win_width/2, VideoMode::getDesktopMode().height/2 - win_height/2));
     ExitShape.setSize(Vector2f(win_width, win_height));
     ExitShape.setPosition(Vector2f(VideoMode::getDesktopMode().width/2 - win_width/2, VideoMode::getDesktopMode().height/2 - win_height/2));
-
-
 
     Texture name;
     Texture color;
@@ -89,7 +89,7 @@ int win(RenderWindow& window)
     time_s.setPosition(win_width / 2 + win_width / 2.7, win_height / 3 + win_height / 3);
 
 
-    Text exit_text("You won", font, 75);
+    Text exit_text("You lose", font, 75);
     exit_text.setFillColor(Color::Black);
     exit_text.setPosition(ExitShape.getPosition().x + (ExitShape.getLocalBounds().width - exit_text.getLocalBounds().width)/2, ExitShape.getPosition().y + 40);
 
@@ -173,5 +173,4 @@ int win(RenderWindow& window)
     }
     return 2;
 }
-
-#endif //SF_WIN_H
+#endif //SF_LOSE_H
