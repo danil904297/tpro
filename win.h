@@ -4,6 +4,10 @@
 
 #include "SFML/Graphics.hpp"
 #include "SFML/Window.hpp"
+#include "external/nlohmann/json.hpp"
+#include "fstream"
+#include "iostream"
+using json = nlohmann::json;
 
 
 
@@ -14,6 +18,34 @@ using  namespace sf;
 int win(RenderWindow& window)
 {
     Color buttons_color = Color::Black, buttons_chosen = Color::Red;
+    std::ifstream file("tekst.json");
+    json data = json::parse(file);
+
+    file.close();
+
+
+    sf::Color i;
+    std::cout << data["Color"];
+    std::string name_a = "g";
+    std::string color_a = "";
+    std::string Game_a = "";
+    std::string time_a = "";
+    if(data["Color"] == 1) {
+
+        color_a = "White";
+    }
+    if(data["Color"] == 2) {
+
+        color_a = "Blue";
+    }
+    if(data["Color"] == 3) {
+
+        color_a = "Red";
+    }
+    if(data["Color"] == 4) {
+        std::cout << data["Color"] ;
+        color_a = "Pink";
+    }
 
     int win_width = 1200, win_height = 1000;
     RectangleShape ExitShape;
@@ -39,12 +71,31 @@ int win(RenderWindow& window)
     Game_score.setTexture(game_score);
     Time.setTexture(time);
     Name.setPosition(win_width / 2 - win_width / 4, win_height / 3 - win_height / 20);
-    Color.setPosition(win_width / 2 - win_width / 4, win_height / 2 + win_height / 20);
-    Game_score.setPosition(win_width / 2 - win_width / 4, win_height / 2 + win_height / 15);
-    Time.setPosition(win_width / 2 - win_width / 4, win_height / + win_height / 7);
+    Color.setPosition(win_width / 2 - win_width / 4, win_height / 3 + win_height / 12);
+    Game_score.setPosition(win_width / 2 - win_width / 6.5, win_height / 3 + win_height / 5);
+    Time.setPosition(win_width / 2 - win_width / 4, win_height / 3 + win_height / 3);
+
+
 
     Font font;
     if (!font.loadFromFile("../cmake-build-debug/arial.ttf")) exit(3);
+
+    Text name_s(name_a, font, 75);
+    name_s.setFillColor(Color::Black);
+    name_s.setPosition(win_width / 2 + win_width / 2.7, win_height / 3 - win_height / 20);
+
+    Text color_s(color_a, font, 75);
+    color_s.setFillColor(Color::Black);
+    color_s.setPosition(win_width / 2 + win_width / 2.7, win_height / 3 + win_height / 12);
+
+    Text Gamescore(Game_a, font, 75);
+    Gamescore.setFillColor(Color::Black);
+    Gamescore.setPosition(win_width / 2 + win_width / 2.7, win_height / 3 + win_height / 5);
+
+    Text time_s(time_a, font, 75);
+    time_s.setFillColor(Color::Black);
+    time_s.setPosition(win_width / 2 + win_width / 2.7, win_height / 3 + win_height / 3);
+
 
     Text exit_text("You won", font, 75);
     exit_text.setFillColor(Color::Black);
@@ -53,12 +104,13 @@ int win(RenderWindow& window)
     Text exit_yes("Exit", font, 65);
     exit_yes.setFillColor(buttons_color);
     exit_yes.setPosition(ExitShape.getPosition().x + 100,
-                         ExitShape.getPosition().y + ExitShape.getLocalBounds().height - exit_yes.getLocalBounds().height - 60);
+                         ExitShape.getPosition().y + ExitShape.getLocalBounds().height - exit_yes.getLocalBounds().height - 100);
+
 
     Text exit_no("Start again", font, 65);
     exit_no.setFillColor(buttons_chosen);
     exit_no.setPosition(ExitShape.getPosition().x + ExitShape.getLocalBounds().width - 350,
-                        ExitShape.getPosition().y + ExitShape.getLocalBounds().height - exit_no.getLocalBounds().height - 60);
+                        ExitShape.getPosition().y + ExitShape.getLocalBounds().height - exit_no.getLocalBounds().height - 100);
 
     int exit_selected = 1;
 
@@ -120,6 +172,10 @@ int win(RenderWindow& window)
         window.draw(Color);
         window.draw(Game_score);
         window.draw(Time);
+        window.draw(name_s);
+        window.draw(color_s);
+        window.draw(Gamescore);
+        window.draw(time_s);
 
         window.display();
     }

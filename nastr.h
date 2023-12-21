@@ -1,7 +1,3 @@
-//
-// Created by Администратор on 07.12.2023.
-//
-
 #ifndef SF_GAMESTARTEDWINDOW_CPP
 #define SF_GAMESTARTEDWINDOW_CPP
 #include "SFML/Graphics.hpp"
@@ -11,12 +7,16 @@
 #include "latsgo.cpp"
 #include "latsgoOne.cpp"
 #include "latsgoWithBot.cpp"
+#include "iostream"
+using json = nlohmann::json;
+
 
 
 using namespace sf;
 
 
-void menuNastr(RenderWindow& window) {
+void menuNastr(RenderWindow& window)
+{
 
     //sf::RenderWindow nastr(sf::VideoMode(1920, 1080), "Трон");
     Image Icon;
@@ -44,7 +44,7 @@ void menuNastr(RenderWindow& window) {
     multyGame.loadFromFile("../menu/bot+.png");
     bot1.loadFromFile("../menu/num1.png");
     bot2.loadFromFile("../menu/num2.png");
-    bot5.loadFromFile("../menu/num5.png");
+    bot5.loadFromFile("../menu/3.png");
 
     sf::Font font;
     font.loadFromFile("../cmake-build-debug/arial.ttf");
@@ -144,9 +144,51 @@ void menuNastr(RenderWindow& window) {
         }
 
 
+        std::ifstream file("tekst.json");
+        json data = json::parse(file);
+
+        file.close();
         sf::Event event;
         while (window.pollEvent(event)) {
+
             if (Mouse::isButtonPressed(Mouse::Left)) {
+                if (menu1 == 4) {
+                    data["bot"] = 1;
+                    std::cout << data;
+
+                }
+                if (menu1 == 6) {
+                    data["bot"] = 3;
+                }
+                if (menu1 == 5) {
+                    data["bot"] = 2;
+                }
+                std::ofstream file_close("tekst.json");
+                file_close << data;
+                file_close.close();
+
+                if (menu1 == 3) {
+                    std::ifstream file("tekst.json");
+                    json data = json::parse(file);
+
+                    file.close();
+                    if(data["bot"] == 2){
+                        latsgoWithTwoBot(window);
+                    }
+                    if(data["bot"] == 3){
+                        latsgoWithThreeBot(window);
+                    }
+                    else {
+                        latsgoWithBot(window);
+                    }
+
+
+                }
+                if (menu1 == 2) {
+                    latsgo1(window);
+
+
+                }
                 if (menu1 == 1) {
 
                     latsgo(window);
@@ -154,43 +196,6 @@ void menuNastr(RenderWindow& window) {
 
                 }
             }
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (menu1 == 2) {
-                    latsgo1(window);
-
-
-                }
-            }
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (menu1 == 3) {
-                    latsgoWithBot(window);
-
-
-                }
-            }
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (menu1 == 4) {
-
-                    latsgo(window);
-
-                }
-            }
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (menu1 == 5) {
-
-                    latsgo(window);
-
-                }
-            }
-            if (Mouse::isButtonPressed(Mouse::Left)) {
-                if (menu1 == 6) {
-
-
-
-                }
-            }
-
-
         }
 
 

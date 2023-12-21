@@ -19,9 +19,10 @@ using json = nlohmann::json;
 using namespace sf;
 
 
-void menuOptions(RenderWindow &window) {
+void menuOptions(RenderWindow &window)
+{
 
-    //sf::RenderWindow Options(sf::VideoMode(1920, 1080), "Трон");
+
     Image Icon;
     Icon.loadFromFile("../menu/icon.jpg");
 
@@ -94,7 +95,7 @@ void menuOptions(RenderWindow &window) {
     int scolor = 0;
 
 
-    //textureClicked.loadFromFile("../menu/play.jpg");
+
     Sprite  button1, button3, buttonfastgame, buttonmulty,  buttontext, buttonblue, buttonred, buttonwhite, buttonpink, buttoncircle;
 
 
@@ -106,6 +107,7 @@ void menuOptions(RenderWindow &window) {
     buttonwhite.setTexture(white);
     buttonpink.setTexture(pink);
     buttoncircle.setTexture(circle);
+
 
     buttonmulty.setPosition(width / 4 - width / 4.5, height / 4 - height / 25);
     buttonfastgame.setPosition(width / 4 - width / 4.5, height / 4 + height / 3);
@@ -188,8 +190,8 @@ void menuOptions(RenderWindow &window) {
         if (IntRect(width / 4 + width / 1.93, height / 4 - height / 18.3, width / 80 + width / 33, height / 6 - height/11).contains(
                 Mouse::getPosition(window))) {
             buttonwhite.setColor(Color::Green);
-            check_color = 4;
-            scolor = 3;
+            check_color = 1;
+            scolor = 1;
         }
 
 
@@ -202,22 +204,10 @@ void menuOptions(RenderWindow &window) {
         file.close();
         sf::Event event;
         while (window.pollEvent(event)) {
-//            if (Mouse::isButtonPressed(Mouse::Left)) {
-//                if (menu1 == 1) {
-//
-//                    win(window);
-//
-//                }
-//            }
-//            if (Mouse::isButtonPressed(Mouse::Left)) {
-//                if (menu1 == 2) {
-//
-//
-//                }
-//            }
+
             if (Mouse::isButtonPressed(Mouse::Left)) {
                 if (menu1 == 4) {
-
+                    //win(window);
                     qwe = 0;
                     data["qwe"] = 0;
                     std::cout << data;
@@ -238,12 +228,9 @@ void menuOptions(RenderWindow &window) {
                 if (scolor == 4) {
                     check_color = 0;
                     data["Color"] = 4;
-                    std::ofstream file_close("tekst.json");
-                    std::cout << data;
-                    file_close << data;
-                    file_close.close();
+
                 }
-                if (menu1 == 1) {
+                if (menu1 == 2) {
                     qwe = 1;
                     data["qwe"] = 1;
                     std::cout << qwe;

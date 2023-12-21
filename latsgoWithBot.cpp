@@ -92,7 +92,7 @@ void latsgoWithBot(RenderWindow& window)
     }
 
     Player Player1(pos1x, pos1y, dir1, i);
-    Player Player2(pos2x, pos2y, dir2, sf::Color::Red);
+    Player Player2(pos2x, pos2y, dir2, sf::Color::Yellow);
 
     sf::VertexArray Wall;
 
@@ -239,6 +239,7 @@ void latsgoWithBot(RenderWindow& window)
 
         Wall.append(B);
         Player2.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
+        Player2.setWall(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y);
         Player2.update();
 
         if (crashed)
@@ -305,9 +306,10 @@ void latsgoWithBot(RenderWindow& window)
     return;
 }
 
-void latsgoWithTwoBot()
+void latsgoWithTwoBot(RenderWindow& window)
 {
-    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Tron Game", sf::Style::Titlebar | sf::Style::Close); // Window declarations
+    Clock clock;
+    //sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Tron Game", sf::Style::Titlebar | sf::Style::Close); // Window declarations
     window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
 
@@ -318,21 +320,38 @@ void latsgoWithTwoBot()
         printf("Error: Loading a font\n");
     }
 
-    sf::Text text1, text2; // Declaring texts displaying scores
+    sf::Text text1, text2, text3, text4, text5; // Declaring texts displaying scores
     text1.setFont(font);
     text2.setFont(font);
+    text3.setFont(font);
+    text4.setFont(font);
+    text5.setFont(font);
 
     int score1 = 0;
     int score2 = 0;
+    int gameTime = 0;
+    int timeArr[50];
+    int curRound = 0;
+    int resTime = 0;
     int count = 0;
     int randomMoveOne = 0;
     int randomMoveTwo = 0;
+    std::string name1 = "bleb";
+    std::string color1 = "l";
+    sf::Color i;
+
 
     text1.setString("a");
     text2.setString(std::to_string(score2));
+    text3.setString(std::to_string(gameTime));
+    text4.setString(name1);
+    text5.setString(color1);
 
     text1.setCharacterSize(TEXT_SIZE);
     text2.setCharacterSize(TEXT_SIZE);
+    text3.setCharacterSize(TEXT_SIZE);
+    text4.setCharacterSize(TEXT_SIZE);
+    text5.setCharacterSize(TEXT_SIZE);
 
     srand(time(NULL)); // Setting random initial positions and directions
 
@@ -346,24 +365,56 @@ void latsgoWithTwoBot()
     int dir1 = rand() % 4;
     int dir2 = rand() % 4;
     int dir3 = rand() % 4;
+    std::ifstream file("tekst.json");
+    json data = json::parse(file);
+    file.close();
+    std::cout << data["Color"];
+    if(data["Color"] == 1) {
+        i = sf::Color::White;
+        color1 = "White";
+    }
+    if(data["Color"] == 2) {
+        i = sf::Color::Blue;
+        color1 = "Blue";
+    }
+    if(data["Color"] == 3) {
+        i = sf::Color::Red;
+        color1 = "Red";
+    }
+    if(data["Color"] == 4) {
+        i = sf::Color::Magenta;
+        color1 = "Magenta";
+    }
 
-    Player Player1(pos1x, pos1y, dir1, sf::Color::Blue);
-    Player Player2(pos2x, pos2y, dir2, sf::Color::Red);
-    Player Player3(pos3x, pos3y, dir3, sf::Color::Red);
+    Player Player1(pos1x, pos1y, dir1, i);
+    Player Player2(pos2x, pos2y, dir2, sf::Color::Yellow);
+    Player Player3(pos3x, pos3y, dir3, sf::Color::Yellow);
 
     sf::VertexArray Wall;
 
     text1.setFillColor(Player1.getColor());
     text2.setFillColor(Player2.getColor());
+    text3.setFillColor(sf::Color::White);
+    text4.setFillColor(sf::Color::White);
+    text5.setFillColor(Player1.getColor());
 
     sf::FloatRect textBox1 = text1.getLocalBounds();
     sf::FloatRect textBox2 = text2.getLocalBounds();
+    sf::FloatRect textBox3 = text3.getLocalBounds();
+    sf::FloatRect textBox4 = text4.getLocalBounds();
+    sf::FloatRect textBox5 = text5.getLocalBounds();
 
     text1.setOrigin(textBox1.left + textBox1.width / 2, textBox1.top + textBox1.height / 2);
     text2.setOrigin(textBox2.left + textBox2.width / 2, textBox2.top + textBox2.height / 2);
+    text3.setOrigin(textBox3.left + textBox3.width / 2, textBox3.top + textBox3.height / 2);
+    text4.setOrigin(textBox4.left + textBox4.width / 2, textBox4.top + textBox4.height / 2);
+    text5.setOrigin(textBox5.left + textBox5.width / 2, textBox5.top + textBox5.height / 2);
 
     text1.setPosition(sf::Vector2f(WIDTH / 10, HEIGHT / 20));
     text2.setPosition(sf::Vector2f((WIDTH * 9) / 10, HEIGHT / 20));
+    text3.setPosition(sf::Vector2f((WIDTH * 5) / 10, HEIGHT / 20));
+    text4.setPosition(sf::Vector2f((WIDTH * 3) / 10, HEIGHT / 20));
+    text5.setPosition(sf::Vector2f((WIDTH * 2.8) / 10, HEIGHT / 10));
 
     for (int j = 0; j <= 5; j++) // Creating boundaries on the screen
     {
@@ -416,181 +467,181 @@ void latsgoWithTwoBot()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        if(score1 == 10 || score2 ==10)
-        {
-            sf::RenderWindow window(sf::VideoMode(400, 200), "Поздравляю!");
-
-            sf::Font font;
-            font.loadFromFile("../cmake-build-debug/arial.ttf");
-
-            sf::Text text;
-            text.setFont(font);
-            text.setString("Win");
-            text.setStyle(sf::Text::Bold | sf::Text::Underlined);
-
-            text.setPosition(100, 100);
-
-            text.setCharacterSize(36);
-            text.setFillColor(sf::Color::Red);
-
-            while (window.isOpen())
-            {
-                sf::Event event;
-                while (window.pollEvent(event))
-                {
-                    if (event.type == sf::Event::Closed)
-                        window.close();
-                }
-
-                window.clear();
-                window.draw(text);
-                window.display();
+        gameTime = (int) clock.getElapsedTime().asSeconds();
+        if (score1 == 10 || score2 == 10) {
+            for (int i = 0; i < 20; ++i) {
+                resTime += timeArr[i];
             }
 
-            return;
-        }
-
-        window.clear(sf::Color::Black);
-        if(count % 15 == 0) {
-            randomMoveOne = std::rand() % 4;
-            randomMoveTwo = std::rand() % 4;
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) // Keyboard input
-            Player1.changeDirection(up);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            Player1.changeDirection(down);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            Player1.changeDirection(left);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            Player1.changeDirection(right);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-            Escape(window);
-            if (Escape(window) == 1) { return;}
-            if (Escape(window)== 2) {
-                score1= 0;
+            if (win(window) == 1) { return; }
+            else {
                 score2 = 0;
+                score1 = 0;
             }
-            if (Escape(window)== 3) {}
         }
 
-        if (randomMoveOne == 0)
-            Player2.changeDirection(up);
-        if (randomMoveOne == 1)
-            Player2.changeDirection(down);
-        if (randomMoveOne == 2)
-            Player2.changeDirection(left);
-        if (randomMoveOne ==3)
-            Player2.changeDirection(right);
+            window.clear(sf::Color::Black);
+            if (count % 15 == 0) {
+                randomMoveOne = std::rand() % 4;
+                randomMoveTwo = std::rand() % 4;
+            }
+            if (data["qwe"] == 1) {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) // Keyboard input
+                    Player1.changeDirection(up);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+                    Player1.changeDirection(down);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                    Player1.changeDirection(left);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                    Player1.changeDirection(right);
+            } else {
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+                    Player1.changeDirection(up);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+                    Player1.changeDirection(down);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+                    Player1.changeDirection(left);
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+                    Player1.changeDirection(right);
+            }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+                Escape(window);
+                if (Escape(window) == 1) { return; }
+                if (Escape(window) == 2) {
+                    score1 = 0;
+                    score2 = 0;
+                }
+                if (Escape(window) == 3) {}
+            }
 
-        if (randomMoveTwo == 0)
-            Player3.changeDirection(up);
-        if (randomMoveTwo == 1)
-            Player3.changeDirection(down);
-        if (randomMoveTwo == 2)
-            Player3.changeDirection(left);
-        if (randomMoveTwo ==3)
-            Player3.changeDirection(right);
+            if (randomMoveOne == 0)
+                Player2.changeDirection(up);
+            if (randomMoveOne == 1)
+                Player2.changeDirection(down);
+            if (randomMoveOne == 2)
+                Player2.changeDirection(left);
+            if (randomMoveOne == 3)
+                Player2.changeDirection(right);
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-            window.close();
-        Vertex A = Player1.move();
-        Vertex B = Player2.move();
-        Vertex C = Player3.move();
+            if (randomMoveTwo == 0)
+                Player3.changeDirection(up);
+            if (randomMoveTwo == 1)
+                Player3.changeDirection(down);
+            if (randomMoveTwo == 2)
+                Player3.changeDirection(left);
+            if (randomMoveTwo == 3)
+                Player3.changeDirection(right);
 
-        if (Player1.isCrashed(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y))
-            score2++;
-        if (Player2.isCrashed(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y))
-            score1++;
-        if (Player3.isCrashed(C.position.x, C.position.y, Player3.getPosition().x, Player3.getPosition().y))
-            score1++;
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+                window.close();
+            Vertex A = Player1.move();
+            Vertex B = Player2.move();
+            Vertex C = Player3.move();
 
-        bool crashed = 0;
+            if (Player1.isCrashed(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y))
+                score2++;
+            if (Player2.isCrashed(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y))
+                score1++;
+            if (Player3.isCrashed(C.position.x, C.position.y, Player3.getPosition().x, Player3.getPosition().y))
+                score1++;
 
-        if (Player1.isCrashed(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y) ||
-            Player2.isCrashed(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y) ||
-            Player3.isCrashed(C.position.x, C.position.y, Player3.getPosition().x, Player3.getPosition().y))
-        {
-            crashed = 1;
-        }
+            bool crashed = 0;
 
-        Wall.append(A);
-        Player1.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
-        Player1.setWall(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y);
-        Player1.update();
+            if (Player1.isCrashed(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y) ||
+                Player2.isCrashed(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y) ||
+                Player3.isCrashed(C.position.x, C.position.y, Player3.getPosition().x, Player3.getPosition().y)) {
+                crashed = 1;
+            }
 
-        Wall.append(B);
-        Player2.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
-        Player2.update();
+            Wall.append(A);
+            Player1.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
+            Player1.setWall(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y);
+            Player1.setWall(C.position.x, C.position.y, Player3.getPosition().x, Player3.getPosition().y);
+            Player1.update();
 
-        Wall.append(C);
-        Player3.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
-        Player3.update();
+            Wall.append(B);
+            Player2.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
+            Player2.setWall(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y);
 
-        if (crashed)
-        {
-            Wall.clear();
-            Player1.wallReset();
-            Player2.wallReset();
+            Player2.update();
 
-            pos1x = (WIDTH / 4) + rand() % (WIDTH - (WIDTH / 2));
-            pos1y = (HEIGHT / 4) + rand() % (HEIGHT - (HEIGHT / 2));
-            pos2x = (WIDTH / 4) + rand() % (WIDTH - (WIDTH / 2));
-            pos2y = (HEIGHT / 4) + rand() % (HEIGHT - (HEIGHT / 2));
-            pos3x = (WIDTH / 4) + rand() % (WIDTH - (WIDTH / 2));
-            pos3y = (HEIGHT / 4) + rand() % (HEIGHT - (HEIGHT / 2));
+            Wall.append(C);
+            Player3.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
+            Player3.setWall(C.position.x, C.position.y, Player3.getPosition().x, Player3.getPosition().y);
+            Player3.update();
 
-            dir1 = rand() % 4;
-            dir2 = rand() % 4;
-            dir2 = rand() % 4;
+            if (crashed) {
+                timeArr[curRound] = gameTime;
+                Wall.clear();
+                Player1.wallReset();
+                Player2.wallReset();
+                clock.restart();
+                curRound++;
 
-            Player1.setPosition(pos1x, pos1y);
-            Player2.setPosition(pos2x, pos2y);
-            Player3.setPosition(pos3x, pos3y);
+                pos1x = (WIDTH / 4) + rand() % (WIDTH - (WIDTH / 2));
+                pos1y = (HEIGHT / 4) + rand() % (HEIGHT - (HEIGHT / 2));
+                pos2x = (WIDTH / 4) + rand() % (WIDTH - (WIDTH / 2));
+                pos2y = (HEIGHT / 4) + rand() % (HEIGHT - (HEIGHT / 2));
+                pos3x = (WIDTH / 4) + rand() % (WIDTH - (WIDTH / 2));
+                pos3y = (HEIGHT / 4) + rand() % (HEIGHT - (HEIGHT / 2));
 
-            Player1.changeDirection(dir1);
-            Player2.changeDirection(dir2);
-            Player3.changeDirection(dir3);
+                dir1 = rand() % 4;
+                dir2 = rand() % 4;
+                dir2 = rand() % 4;
 
-            for (int j = 0; j <= 5; j++) // Creating boundaries on the screen
-            {
-                for (int i = 0; i < WIDTH; i++)
+                Player1.setPosition(pos1x, pos1y);
+                Player2.setPosition(pos2x, pos2y);
+                Player3.setPosition(pos3x, pos3y);
+
+                Player1.changeDirection(dir1);
+                Player2.changeDirection(dir2);
+                Player3.changeDirection(dir3);
+
+                for (int j = 0; j <= 5; j++) // Creating boundaries on the screen
                 {
-                    Wall.append(sf::Vertex(sf::Vector2f(i, j), Color(123, 17, 237)));
-                    Wall.append(sf::Vertex(sf::Vector2f(i, HEIGHT - 1 - j), Color(123, 17, 237)));
+                    for (int i = 0; i < WIDTH; i++) {
+                        Wall.append(sf::Vertex(sf::Vector2f(i, j), Color(123, 17, 237)));
+                        Wall.append(sf::Vertex(sf::Vector2f(i, HEIGHT - 1 - j), Color(123, 17, 237)));
+                    }
+                }
+
+                for (int j = 0; j <= 5; j++) {
+                    for (int i = 0; i < HEIGHT; i++) {
+                        Wall.append(sf::Vertex(sf::Vector2f(j, i), Color(123, 17, 237)));
+                        Wall.append(sf::Vertex(sf::Vector2f(WIDTH - 1 - j, i), Color(123, 17, 237)));
+                    }
                 }
             }
 
-            for (int j = 0; j <= 5; j++)
-            {
-                for (int i = 0; i < HEIGHT; i++)
-                {
-                    Wall.append(sf::Vertex(sf::Vector2f(j, i), Color(123, 17, 237)));
-                    Wall.append(sf::Vertex(sf::Vector2f(WIDTH - 1 - j, i), Color(123, 17, 237)));
-                }
-            }
+            text1.setString(std::to_string(score1));
+            text2.setString(std::to_string(score2));
+            text3.setString(std::to_string(gameTime));
+            text4.setString(name1);
+            text5.setString(color1);
+
+            window.draw(Player1.getShape()); // Drawing
+            window.draw(Player2.getShape());
+            window.draw(Player3.getShape());
+
+            window.draw(Wall);
+
+            window.draw(text1);
+            window.draw(text2);
+            window.draw(text3);
+            window.draw(text4);
+            window.draw(text5);
+
+            window.display();
+
         }
-
-        text1.setString(std::to_string(score1));
-        text2.setString(std::to_string(score2));
-
-        window.draw(Player1.getShape()); // Drawing
-        window.draw(Player2.getShape());
-        window.draw(Player3.getShape());
-
-        window.draw(Wall);
-
-        window.draw(text1);
-        window.draw(text2);
-
-        window.display();
-    }
 
     return;
 }
 
-void latsgoWithThreeBot()
+void latsgoWithThreeBot(RenderWindow& window)
 {
-    sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Tron Game", sf::Style::Titlebar | sf::Style::Close); // Window declarations
+    Clock clock;
+    //sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Tron Game", sf::Style::Titlebar | sf::Style::Close); // Window declarations
     window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
 
@@ -601,22 +652,39 @@ void latsgoWithThreeBot()
         printf("Error: Loading a font\n");
     }
 
-    sf::Text text1, text2; // Declaring texts displaying scores
+    sf::Text text1, text2, text3, text4, text5; // Declaring texts displaying scores
     text1.setFont(font);
     text2.setFont(font);
+    text3.setFont(font);
+    text4.setFont(font);
+    text5.setFont(font);
 
     int score1 = 0;
     int score2 = 0;
+    int gameTime = 0;
+    int timeArr[50];
+    int curRound = 0;
+    int resTime = 0;
     int count = 0;
     int randomMoveOne = 0;
     int randomMoveTwo = 0;
     int randomMoveThree = 0;
+    std::string name1 = "bleb";
+    std::string color1 = "l";
+    sf::Color i;
+
 
     text1.setString("a");
     text2.setString(std::to_string(score2));
+    text3.setString(std::to_string(gameTime));
+    text4.setString(name1);
+    text5.setString(color1);
 
     text1.setCharacterSize(TEXT_SIZE);
     text2.setCharacterSize(TEXT_SIZE);
+    text3.setCharacterSize(TEXT_SIZE);
+    text4.setCharacterSize(TEXT_SIZE);
+    text5.setCharacterSize(TEXT_SIZE);
 
     srand(time(NULL)); // Setting random initial positions and directions
 
@@ -633,8 +701,28 @@ void latsgoWithThreeBot()
     int dir2 = rand() % 4;
     int dir3 = rand() % 4;
     int dir4 = rand() % 4;
+    std::ifstream file("tekst.json");
+    json data = json::parse(file);
+    file.close();
+    std::cout << data["Color"];
+    if(data["Color"] == 1) {
+        i = sf::Color::White;
+        color1 = "White";
+    }
+    if(data["Color"] == 2) {
+        i = sf::Color::Blue;
+        color1 = "Blue";
+    }
+    if(data["Color"] == 3) {
+        i = sf::Color::Red;
+        color1 = "Red";
+    }
+    if(data["Color"] == 4) {
+        i = sf::Color::Magenta;
+        color1 = "Magenta";
+    }
 
-    Player Player1(pos1x, pos1y, dir1, sf::Color::Blue);
+    Player Player1(pos1x, pos1y, dir1, i);
     Player Player2(pos2x, pos2y, dir2, sf::Color::Red);
     Player Player3(pos3x, pos3y, dir3, sf::Color::Red);
     Player Player4(pos4x, pos4y, dir4, sf::Color::Red);
@@ -643,15 +731,27 @@ void latsgoWithThreeBot()
 
     text1.setFillColor(Player1.getColor());
     text2.setFillColor(Player2.getColor());
+    text3.setFillColor(sf::Color::White);
+    text4.setFillColor(sf::Color::White);
+    text5.setFillColor(Player1.getColor());
 
     sf::FloatRect textBox1 = text1.getLocalBounds();
     sf::FloatRect textBox2 = text2.getLocalBounds();
+    sf::FloatRect textBox3 = text3.getLocalBounds();
+    sf::FloatRect textBox4 = text4.getLocalBounds();
+    sf::FloatRect textBox5 = text5.getLocalBounds();
 
     text1.setOrigin(textBox1.left + textBox1.width / 2, textBox1.top + textBox1.height / 2);
     text2.setOrigin(textBox2.left + textBox2.width / 2, textBox2.top + textBox2.height / 2);
+    text3.setOrigin(textBox3.left + textBox3.width / 2, textBox3.top + textBox3.height / 2);
+    text4.setOrigin(textBox4.left + textBox4.width / 2, textBox4.top + textBox4.height / 2);
+    text5.setOrigin(textBox5.left + textBox5.width / 2, textBox5.top + textBox5.height / 2);
 
     text1.setPosition(sf::Vector2f(WIDTH / 10, HEIGHT / 20));
     text2.setPosition(sf::Vector2f((WIDTH * 9) / 10, HEIGHT / 20));
+    text3.setPosition(sf::Vector2f((WIDTH * 5) / 10, HEIGHT / 20));
+    text4.setPosition(sf::Vector2f((WIDTH * 3) / 10, HEIGHT / 20));
+    text5.setPosition(sf::Vector2f((WIDTH * 2.8) / 10, HEIGHT / 10));
 
     for (int j = 0; j <= 5; j++) // Creating boundaries on the screen
     {
@@ -711,38 +811,17 @@ void latsgoWithThreeBot()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        if(score1 == 10 || score2 ==10)
-        {
-            sf::RenderWindow window(sf::VideoMode(400, 200), "Поздравляю!");
-
-            sf::Font font;
-            font.loadFromFile("../cmake-build-debug/arial.ttf");
-
-            sf::Text text;
-            text.setFont(font);
-            text.setString("Win");
-            text.setStyle(sf::Text::Bold | sf::Text::Underlined);
-
-            text.setPosition(100, 100);
-
-            text.setCharacterSize(36);
-            text.setFillColor(sf::Color::Red);
-
-            while (window.isOpen())
-            {
-                sf::Event event;
-                while (window.pollEvent(event))
-                {
-                    if (event.type == sf::Event::Closed)
-                        window.close();
-                }
-
-                window.clear();
-                window.draw(text);
-                window.display();
+        gameTime = (int) clock.getElapsedTime().asSeconds();
+        if (score1 == 10 || score2 == 10) {
+            for (int i = 0; i < 20; ++i) {
+                resTime += timeArr[i];
             }
 
-            return;
+            if (win(window) == 1) { return; }
+            else {
+                score2 = 0;
+                score1 = 0;
+            }
         }
 
         window.clear(sf::Color::Black);
@@ -752,14 +831,25 @@ void latsgoWithThreeBot()
             randomMoveThree = std::rand() % 4;
 
         }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) // Keyboard input
-            Player1.changeDirection(up);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            Player1.changeDirection(down);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            Player1.changeDirection(left);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            Player1.changeDirection(right);
+        if (data["qwe"] == 1) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) // Keyboard input
+                Player1.changeDirection(up);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+                Player1.changeDirection(down);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                Player1.changeDirection(left);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                Player1.changeDirection(right);
+        } else {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+                Player1.changeDirection(up);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+                Player1.changeDirection(down);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+                Player1.changeDirection(left);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+                Player1.changeDirection(right);
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
             Escape(window);
             if (Escape(window) == 1) { return;}
@@ -833,21 +923,27 @@ void latsgoWithThreeBot()
 
         Wall.append(B);
         Player2.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
+        Player2.setWall(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y);
         Player2.update();
 
         Wall.append(C);
         Player3.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
+        Player3.setWall(C.position.x, C.position.y, Player3.getPosition().x, Player3.getPosition().y);
         Player3.update();
 
         Wall.append(D);
         Player4.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
+        Player4.setWall(D.position.x, D.position.y, Player4.getPosition().x, Player4.getPosition().y);
         Player4.update();
 
         if (crashed)
         {
+            timeArr[curRound] = gameTime;
             Wall.clear();
             Player1.wallReset();
             Player2.wallReset();
+            clock.restart();
+            curRound++;
 
             pos1x = (WIDTH / 4) + rand() % (WIDTH - (WIDTH / 2));
             pos1y = (HEIGHT / 4) + rand() % (HEIGHT - (HEIGHT / 2));
@@ -894,6 +990,9 @@ void latsgoWithThreeBot()
 
         text1.setString(std::to_string(score1));
         text2.setString(std::to_string(score2));
+        text3.setString(std::to_string(gameTime));
+        text4.setString(name1);
+        text5.setString(color1);
 
         window.draw(Player1.getShape()); // Drawing
         window.draw(Player2.getShape());
@@ -904,6 +1003,9 @@ void latsgoWithThreeBot()
 
         window.draw(text1);
         window.draw(text2);
+        window.draw(text3);
+        window.draw(text4);
+        window.draw(text5);
 
         window.display();
     }

@@ -14,6 +14,7 @@ int main()
 
     data["Color"] = 1;
     data["qwe"] = 1;
+    data["bot"] = 1;
     std::cout << data;
     file << data;
 
@@ -21,5 +22,7 @@ int main()
     // Создание окна игры
     sf::RenderWindow window(sf::VideoMode(2520, 1680), "Трон");
     menu(window);
+
+
 
 }
