@@ -162,6 +162,14 @@ void latsgoWithBot(RenderWindow& window)
             for(int i = 0; i < 20; ++i) {
                 resTime += timeArr[i];
             }
+            std::ifstream file("tekst.json");
+            json data = json::parse(file);
+            file.close();
+            data["countRound"] = curRound;
+            data["timeOfRound"] = resTime;
+            std::ofstream file_close("tekst.json");
+            file_close << data;
+            file_close.close();
 
             if (win(window) == 1){ return;}
             else {score2 = 0; score1 = 0;}
@@ -468,16 +476,21 @@ void latsgoWithTwoBot(RenderWindow& window)
                 window.close();
         }
         gameTime = (int) clock.getElapsedTime().asSeconds();
-        if (score1 == 10 || score2 == 10) {
-            for (int i = 0; i < 20; ++i) {
+        if(score1 == 10 || score2 ==10) {
+            for(int i = 0; i < 20; ++i) {
                 resTime += timeArr[i];
             }
+            std::ifstream file("tekst.json");
+            json data = json::parse(file);
+            file.close();
+            data["countRound"] = curRound;
+            data["timeOfRound"] = resTime;
+            std::ofstream file_close("tekst.json");
+            file_close << data;
+            file_close.close();
 
-            if (win(window) == 1) { return; }
-            else {
-                score2 = 0;
-                score1 = 0;
-            }
+            if (win(window) == 1){ return;}
+            else {score2 = 0; score1 = 0;}
         }
 
             window.clear(sf::Color::Black);
@@ -812,16 +825,21 @@ void latsgoWithThreeBot(RenderWindow& window)
                 window.close();
         }
         gameTime = (int) clock.getElapsedTime().asSeconds();
-        if (score1 == 10 || score2 == 10) {
-            for (int i = 0; i < 20; ++i) {
+        if(score1 == 10 || score2 ==10) {
+            for(int i = 0; i < 20; ++i) {
                 resTime += timeArr[i];
             }
+            std::ifstream file("tekst.json");
+            json data = json::parse(file);
+            file.close();
+            data["countRound"] = curRound;
+            data["timeOfRound"] = resTime;
+            std::ofstream file_close("tekst.json");
+            file_close << data;
+            file_close.close();
 
-            if (win(window) == 1) { return; }
-            else {
-                score2 = 0;
-                score1 = 0;
-            }
+            if (win(window) == 1){ return;}
+            else {score2 = 0; score1 = 0;}
         }
 
         window.clear(sf::Color::Black);

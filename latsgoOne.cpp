@@ -3,11 +3,17 @@
 #include <bitset>
 #include <string>
 #include "settings.h"
+#include "external/nlohmann/json.hpp"
 #include "player.h"
 #include "escape.h"
+#include "win.h"
+#include "iostream"
+#include "fstream"
+#include "time.h"
 
 void latsgo1(RenderWindow& window)
 {
+    Clock clock;
     //sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Tron Game", sf::Style::Titlebar | sf::Style::Close);
     window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
@@ -19,14 +25,54 @@ void latsgo1(RenderWindow& window)
         printf("Error: Loading a font\n");
     }
 
-    sf::Text text1;
+    sf::Text text1, text2, text3, text4, text5; // Declaring texts displaying scores
     text1.setFont(font);
+    text2.setFont(font);
+    text3.setFont(font);
+    text4.setFont(font);
+    text5.setFont(font);
 
     int score1 = 0;
+    int gameTime = 0;
+    int timeArr[50];
+    int curRound = 0;
+    int resTime = 0;
+    int count = 0;
+    int randomMove = 0;
+    std::string name1 = "bleb";
+    std::string color1 = "l";
+    sf::Color i;
 
+    std::ifstream file("tekst.json");
+    json data = json::parse(file);
+    file.close();
+    std::cout << data["Color"];
+    if(data["Color"] == 1) {
+        i = sf::Color::White;
+        color1 = "White";
+    }
+    if(data["Color"] == 2) {
+        i = sf::Color::Blue;
+        color1 = "Blue";
+    }
+    if(data["Color"] == 3) {
+        i = sf::Color::Red;
+        color1 = "Red";
+    }
+    if(data["Color"] == 4) {
+        i = sf::Color::Magenta;
+        color1 = "Magenta";
+    }
     text1.setString("a");
+    text2.setString(std::to_string(gameTime));
+    text3.setString(name1);
+    text4.setString(color1);
+
 
     text1.setCharacterSize(TEXT_SIZE);
+    text2.setCharacterSize(TEXT_SIZE);
+    text3.setCharacterSize(TEXT_SIZE);
+    text4.setCharacterSize(TEXT_SIZE);
 
     srand(time(NULL));
 
@@ -36,17 +82,30 @@ void latsgo1(RenderWindow& window)
     int dir1 = rand() % 4;
 
 
-    Player Player1(pos1x, pos1y, dir1, sf::Color::Red);
+    Player Player1(pos1x, pos1y, dir1, i);
 
     sf::VertexArray Wall;
 
     text1.setFillColor(Player1.getColor());
+    text2.setFillColor(sf::Color::White);
+    text3.setFillColor(Player1.getColor());
+    text4.setFillColor(Player1.getColor());
 
     sf::FloatRect textBox1 = text1.getLocalBounds();
+    sf::FloatRect textBox2 = text2.getLocalBounds();
+    sf::FloatRect textBox3 = text3.getLocalBounds();
+    sf::FloatRect textBox4 = text4.getLocalBounds();
 
     text1.setOrigin(textBox1.left + textBox1.width / 2, textBox1.top + textBox1.height / 2);
+    text2.setOrigin(textBox2.left + textBox2.width / 2, textBox2.top + textBox2.height / 2);
+    text3.setOrigin(textBox3.left + textBox3.width / 2, textBox3.top + textBox3.height / 2);
+    text4.setOrigin(textBox4.left + textBox4.width / 2, textBox4.top + textBox4.height / 2);
+
 
     text1.setPosition(sf::Vector2f(WIDTH / 10, HEIGHT / 20));
+    text2.setPosition(sf::Vector2f((WIDTH * 5) / 10, HEIGHT / 20));
+    text3.setPosition(sf::Vector2f((WIDTH * 3) / 10, HEIGHT / 20));
+    text4.setPosition(sf::Vector2f((WIDTH * 2.8) / 10, HEIGHT / 10));
 
     for (int j = 0; j <= 5; j++)
     {
@@ -76,9 +135,26 @@ void latsgo1(RenderWindow& window)
 
     while (window.isOpen())
     {
+        ++count;
+        gameTime = clock.getElapsedTime().asSeconds();
         sf::Event event;
+        if(score1 == 10 ) {
+            for(int i = 0; i < 20; ++i) {
+                resTime += timeArr[i];
+            }
+            std::ifstream file("tekst.json");
+            json data = json::parse(file);
+            file.close();
+            data["countRound"] = curRound;
+            data["timeOfRound"] = resTime;
+            std::ofstream file_close("tekst.json");
+            file_close << data;
+            file_close.close();
 
-        while (window.pollEvent(event))
+            if (win(window) == 1){ return;}
+            else {score1 = 0;}
+        }
+        while (window.pollEvent(event)) // Event loop
         {
             if (event.type == sf::Event::Closed)
                 window.close();
@@ -86,14 +162,26 @@ void latsgo1(RenderWindow& window)
 
         window.clear(sf::Color::Black);
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-            Player1.changeDirection(up);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-            Player1.changeDirection(down);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-            Player1.changeDirection(left);
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-            Player1.changeDirection(right);
+        if(data["qwe"] == 1) {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) // Keyboard input
+                Player1.changeDirection(up);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+                Player1.changeDirection(down);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+                Player1.changeDirection(left);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+                Player1.changeDirection(right);
+        }
+        else {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+                Player1.changeDirection(up);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+                Player1.changeDirection(down);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+                Player1.changeDirection(left);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+                Player1.changeDirection(right);
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
             Escape(window);
             if (Escape(window) == 1) { return;}
@@ -124,8 +212,11 @@ void latsgo1(RenderWindow& window)
 
         if (crashed)
         {
+            timeArr[curRound] = gameTime;
             Wall.clear();
             Player1.wallReset();
+            clock.restart();
+            curRound++;
 
             pos1x = (WIDTH / 4) + rand() % (WIDTH - (WIDTH / 2));
             pos1y = (HEIGHT / 4) + rand() % (HEIGHT - (HEIGHT / 2));
@@ -156,12 +247,19 @@ void latsgo1(RenderWindow& window)
         }
 
         text1.setString(std::to_string(score1));
+        text2.setString(std::to_string(gameTime));
+        text3.setString(name1);
+        text4.setString(color1);
+
 
         window.draw(Player1.getShape());
 
         window.draw(Wall);
 
         window.draw(text1);
+        window.draw(text2);
+        window.draw(text3);
+        window.draw(text4);
 
         window.display();
     }

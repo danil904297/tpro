@@ -11,6 +11,7 @@
 #include "fstream"
 
 
+
 using json = nlohmann::json;
 
 void latsgo(RenderWindow& window)
@@ -19,6 +20,7 @@ void latsgo(RenderWindow& window)
 	//sf::RenderWindow qwe(sf::VideoMode(WIDTH, HEIGHT), "Tron Game", sf::Style::Titlebar | sf::Style::Close); // Window declarations
     window.setVerticalSyncEnabled(true);
     window.setKeyRepeatEnabled(false);
+
 
 	sf::Font font; // Loading a font
 
@@ -276,7 +278,7 @@ void latsgo(RenderWindow& window)
 		Wall.append(B);
 		Player2.setWall(A.position.x, A.position.y, Player1.getPosition().x, Player1.getPosition().y);
 		Player2.setWall(B.position.x, B.position.y, Player2.getPosition().x, Player2.getPosition().y);
-		Player2.update();
+        Player2.update();
 
 		if (crashed)
 		{
