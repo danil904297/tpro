@@ -40,7 +40,7 @@ void map_for_one_bot(sf::RenderWindow& window, Player player1, Player player2)
     }
 
     for (const auto& obstacle : obstacles) {
-        window.draw(obstacle);
+        win(window);
     }
     for (const auto& obstacle :obstacles) {
         if (player1.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
@@ -112,49 +112,16 @@ void map_for_two_bots(sf::RenderWindow& window, Player player1, Player player2, 
 void map_for_three_bots(sf::RenderWindow& window, Player player1, Player player2, Player player3, Player player4)
 {
     //размеры препятствий
-    int obstacleWidth = 20;
-    int obstacleHeight = 20;
+    int obstacleWidth = 150;
+    int obstacleHeight = 150;
     //расстояние между препятствиями
     int obstacleSpacing= 100;
 
-    //препятствия
-    std::vector<sf::RectangleShape>obstacles;
-
-    for (int x = 30; x<= 1920; x += obstacleSpacing) {
-        sf::RectangleShape obstacle(sf::Vector2f(obstacleWidth, obstacleHeight));
-        obstacle.setPosition(x, 210);
-        obstacle.setFillColor(sf::Color::Yellow);
-        obstacles.push_back(obstacle);
-    }
-    for (int x = 30; x<= 1920; x += obstacleSpacing) {
-        sf::RectangleShape obstacle(sf::Vector2f(obstacleWidth, obstacleHeight));
-        obstacle.setPosition(x, 710);
-        obstacle.setFillColor(sf::Color::Yellow);
-        obstacles.push_back(obstacle);
-    }
-    for (const auto& obstacle : obstacles) {
-        window.draw(obstacle);
-    }
-    for (const auto& obstacle :obstacles) {
-        if (player1.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
-            win(window);
-        }
-    }
-    for (const auto& obstacle :obstacles) {
-        if (player2.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
-            win(window);
-        }
-    }
-    for (const auto& obstacle :obstacles) {
-        if (player3.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
-            win(window);
-        }
-    }
-    for (const auto& obstacle :obstacles) {
-        if (player4.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
-            win(window);
-        }
-    }
+    sf::RectangleShape obstacle (sf::Vector2f(obstacleWidth, obstacleHeight));
+    obstacle.setPosition(700, 350);
+    obstacle.setFillColor(sf::Color::Yellow);
+    sf::FloatRect obstacleBounds = obstacle.getGlobalBounds();
+    window.draw(obstacle);
 }
 
 void latsgoWithBot(RenderWindow& window)
