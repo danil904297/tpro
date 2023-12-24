@@ -1,0 +1,3 @@
+D:/fsesf/tpro/cmake-build-debug/CMakeFiles/sf.dir
+D:/fsesf/tpro/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/fsesf/tpro/cmake-build-debug/CMakeFiles/rebuild_cache.dir

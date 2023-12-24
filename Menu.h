@@ -6,7 +6,6 @@
 #include <string>
 #include "nastr.h"
 #include "options.h"
-#include "exitConfirmation.h"
 #include "exit.h"
 using namespace sf;
 
