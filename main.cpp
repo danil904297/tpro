@@ -1,7 +1,7 @@
 #include "SFML/Graphics.hpp"
 #include "Menu.h"
 #include "fstream"
-#include "nlohmann/json.hpp"
+#include "external/nlohmann/json.hpp"
 #include "iostream"
 using json = nlohmann::json;
 
