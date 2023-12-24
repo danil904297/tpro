@@ -1,6 +1,4 @@
-//
-// Created by 1 on 18.12.2023.
-//
+
 #include"SFML/Window.hpp"
 #include"SFML/Graphics.hpp"
 #include <bitset>
@@ -14,6 +12,150 @@
 
 
 using json = nlohmann::json;
+
+void map_for_one_bot(sf::RenderWindow& window, Player player1, Player player2)
+{
+    //размеры препятствий
+    int obstacleWidth = 30;
+    int obstacleHeight = 150;
+    //расстояние между препятствиями
+    int obstacleSpacing= 200;
+
+    //препятствия
+    std::vector<sf::RectangleShape>obstacles;
+
+    //отрисовка препятсвий blue
+    for (int x = 25; x <= 1920; x += obstacleSpacing) {
+        sf::RectangleShape obstacle(sf::Vector2f(obstacleWidth, obstacleHeight));
+        obstacle.setPosition(x, 300);
+        obstacle.setFillColor(sf::Color::Blue);
+        obstacles.push_back(obstacle);
+    }
+    //отрисовка препятствий cyan
+    for (int x = 125; x <= 1920; x += obstacleSpacing) {
+        sf::RectangleShape obstacle(sf::Vector2f(obstacleWidth, obstacleHeight));
+        obstacle.setPosition(x, 600);
+        obstacle.setFillColor(sf::Color::Cyan);
+        obstacles.push_back(obstacle);
+    }
+
+    for (const auto& obstacle : obstacles) {
+        window.draw(obstacle);
+    }
+    for (const auto& obstacle :obstacles) {
+        if (player1.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
+            win(window);
+        }
+    }
+    for (const auto& obstacle :obstacles) {
+        if (player2.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
+            win(window);
+        }
+    }
+}
+
+
+//карта для двух ботов
+void map_for_two_bots(sf::RenderWindow& window, Player player1, Player player2, Player player3)
+{
+    //размеры препятствий
+    int obstacleWidth = 30;
+    int obstacleHeight = 10;
+    int obstacleWidth_special = 10;
+    int obstacleHeight_special = 180;
+    //расстояние между препятствиями
+    int obstacleSpacing= 100;
+
+    //препятствия
+    std::vector<sf::RectangleShape>obstacles;
+
+    for (int x = 30; x<= 1920; x += obstacleSpacing) {
+        sf::RectangleShape obstacle(sf::Vector2f(obstacleWidth, obstacleHeight));
+        obstacle.setPosition(x, 200);
+        obstacle.setFillColor(sf::Color::Red);
+        obstacles.push_back(obstacle);
+    }
+    for (int x = 30; x <= 1920; x += obstacleSpacing) {
+        sf::RectangleShape obstacle(sf::Vector2f(obstacleWidth, obstacleHeight));
+        obstacle.setPosition(x, 600);
+        obstacle.setFillColor(sf::Color::Red);
+        obstacles.push_back(obstacle);
+    }
+    for (int x = 40; x <= 1920; x += obstacleSpacing) {
+        sf::RectangleShape obstacle(sf::Vector2f(obstacleWidth_special, obstacleHeight_special));
+        obstacle.setPosition(x, 300);
+        obstacle.setFillColor(sf::Color::Red);
+        obstacles.push_back(obstacle);
+    }
+
+    for (const auto& obstacle : obstacles) {
+        window.draw(obstacle);
+    }
+    for (const auto& obstacle :obstacles) {
+        if (player1.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
+            win(window);
+        }
+    }
+    for (const auto& obstacle :obstacles) {
+        if (player2.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
+            win(window);
+        }
+    }
+    for (const auto& obstacle :obstacles) {
+        if (player3.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
+            win(window);
+        }
+    }
+}
+
+//отрисовка карта для 5 ботов
+void map_for_three_bots(sf::RenderWindow& window, Player player1, Player player2, Player player3, Player player4)
+{
+    //размеры препятствий
+    int obstacleWidth = 20;
+    int obstacleHeight = 20;
+    //расстояние между препятствиями
+    int obstacleSpacing= 100;
+
+    //препятствия
+    std::vector<sf::RectangleShape>obstacles;
+
+    for (int x = 30; x<= 1920; x += obstacleSpacing) {
+        sf::RectangleShape obstacle(sf::Vector2f(obstacleWidth, obstacleHeight));
+        obstacle.setPosition(x, 210);
+        obstacle.setFillColor(sf::Color::Yellow);
+        obstacles.push_back(obstacle);
+    }
+    for (int x = 30; x<= 1920; x += obstacleSpacing) {
+        sf::RectangleShape obstacle(sf::Vector2f(obstacleWidth, obstacleHeight));
+        obstacle.setPosition(x, 710);
+        obstacle.setFillColor(sf::Color::Yellow);
+        obstacles.push_back(obstacle);
+    }
+    for (const auto& obstacle : obstacles) {
+        window.draw(obstacle);
+    }
+    for (const auto& obstacle :obstacles) {
+        if (player1.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
+            win(window);
+        }
+    }
+    for (const auto& obstacle :obstacles) {
+        if (player2.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
+            win(window);
+        }
+    }
+    for (const auto& obstacle :obstacles) {
+        if (player3.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
+            win(window);
+        }
+    }
+    for (const auto& obstacle :obstacles) {
+        if (player4.getShape().getGlobalBounds().intersects(obstacle.getGlobalBounds())) {
+            win(window);
+        }
+    }
+}
 
 void latsgoWithBot(RenderWindow& window)
 {
@@ -297,6 +439,9 @@ void latsgoWithBot(RenderWindow& window)
         text3.setString(std::to_string(gameTime));
         text4.setString(name1);
         text5.setString(color1);
+
+        map_for_one_bot(window, Player1, Player2);
+
         window.draw(Player1.getShape()); // Drawing
         window.draw(Player2.getShape());
 
@@ -631,6 +776,8 @@ void latsgoWithTwoBot(RenderWindow& window)
             text3.setString(std::to_string(gameTime));
             text4.setString(name1);
             text5.setString(color1);
+
+            map_for_two_bots(window, Player1, Player2, Player3);
 
             window.draw(Player1.getShape()); // Drawing
             window.draw(Player2.getShape());
@@ -1011,6 +1158,8 @@ void latsgoWithThreeBot(RenderWindow& window)
         text3.setString(std::to_string(gameTime));
         text4.setString(name1);
         text5.setString(color1);
+
+        map_for_three_bots(window, Player1, Player2, Player3, Player4);
 
         window.draw(Player1.getShape()); // Drawing
         window.draw(Player2.getShape());
